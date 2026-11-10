@@ -30,8 +30,8 @@ try {
     method: "POST", headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ messages: [{ role: "user", content: "Hello" }] }),
   });
-  assert.equal(missingKey.status, 503);
-  assert.match((await missingKey.json()).error, /not configured/);
+  assert.equal(missingKey.status, 401);
+  assert.match((await missingKey.json()).error, /Add a valid Groq API key in Settings/);
   assert.equal((await fetch(`${origin}/api/unknown`)).status, 404);
 
   const publicDir = new URL("../artifacts/ai-chat/dist/public/", import.meta.url);
