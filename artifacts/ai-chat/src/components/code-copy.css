@@ -1,0 +1,9 @@
+.code-block { margin: 0 0 12px; min-width: 0; border: 1px solid var(--hair, hsl(var(--border))); border-radius: 10px; overflow: hidden; background: hsl(var(--code-bg)); }
+.code-block-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 5px 10px 5px 14px; border-bottom: 1px solid var(--hair, hsl(var(--border))); font: 11px var(--app-font-mono); color: hsl(var(--muted-foreground)); }
+.markdown .code-block pre { margin: 0; border: 0; border-radius: 0; }
+.code-copy-control { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 6px; max-width: 100%; }
+.code-copy-button { display: inline-flex; align-items: center; gap: 6px; min-height: 32px; border: 1px solid var(--hair-strong, hsl(var(--border))); border-radius: 7px; padding: 4px 8px; background: transparent; color: hsl(var(--muted-foreground)); cursor: pointer; font: 11px var(--app-font-sans); white-space: nowrap; }
+.code-copy-button:hover:not(:disabled) { color: hsl(var(--foreground)); background: hsl(var(--foreground) / .04); }
+.code-copy-button:disabled { opacity: .65; cursor: wait; }
+.code-copy-error { flex-basis: 100%; max-width: 320px; font: 11px/1.4 var(--app-font-sans); color: hsl(var(--destructive)); white-space: normal; text-transform: none; letter-spacing: 0; }
+.widget-fallback { padding: 14px 16px; margin: 12px 0; border: 1px solid var(--hair, hsl(var(--border))); border-radius: 10px; color: hsl(var(--muted-foreground)); font: 13px/1.6 var(--app-font-sans); white-space: normal; }

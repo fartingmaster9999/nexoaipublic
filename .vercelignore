@@ -1,0 +1,15 @@
+# Keep Replit tooling and local dependency caches out of Vercel's file scanner.
+.git
+.cache
+.local
+.agents
+.vercel
+.replit
+.replitignore
+generated-artifacts
+**/node_modules
+**/dist
+**/*.tsbuildinfo
+**/.env
+**/.env.*
+!**/.env.example

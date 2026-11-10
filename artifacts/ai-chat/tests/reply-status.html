@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ReplyStatus visual regression fixture</title>
+    <style>
+      :root {
+        color-scheme: dark;
+        --background: 220 16% 10%;
+        --foreground: 210 20% 96%;
+        --muted-foreground: 215 12% 68%;
+        --primary: 192 92% 58%;
+        --destructive: 0 72% 62%;
+        --border: 220 12% 28%;
+        --app-font-sans: Arial, sans-serif;
+      }
+      body {
+        margin: 0;
+        padding: 24px;
+        background: hsl(var(--background));
+        color: hsl(var(--foreground));
+        font-family: var(--app-font-sans);
+      }
+      #fixture {
+        display: grid;
+        gap: 12px;
+        width: max-content;
+      }
+      .fixture-case {
+        min-height: 36px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .fixture-case::before {
+        content: attr(data-case);
+        width: 118px;
+        color: hsl(var(--muted-foreground));
+        font: 12px monospace;
+      }
+    </style>
+  </head>
+  <body>
+    <main id="fixture" aria-label="Reply status visual regression cases"></main>
+    <script type="module" src="./reply-status.fixture.tsx"></script>
+  </body>
+</html>

@@ -1,0 +1,25 @@
+{
+  "name": "workspace",
+  "packageManager": "pnpm@10.26.1",
+  "engines": {
+    "node": "24.x"
+  },
+  "version": "0.0.0",
+  "license": "MIT",
+  "scripts": {
+    "build:vercel": "pnpm --filter @workspace/api-server run build && PORT=5000 BASE_PATH=/ pnpm --filter @workspace/ai-chat run build && PORT=8081 BASE_PATH=/ pnpm --filter @workspace/mockup-sandbox run build",
+    "check:vercel": "env -u GROQ_API_KEY NODE_ENV=production VERCEL=1 pnpm --filter @workspace/api-server exec tsx ../../scripts/check-vercel-build.mjs",
+    "preinstall": "sh -c 'rm -f package-lock.json yarn.lock; case \"$npm_config_user_agent\" in pnpm/*) ;; *) echo \"Use pnpm instead\" >&2; exit 1 ;; esac'",
+    "build": "pnpm run typecheck && pnpm -r --if-present run build",
+    "typecheck:libs": "tsc --build",
+    "typecheck": "pnpm run typecheck:libs && pnpm -r --filter \"./artifacts/**\" --filter \"./scripts\" --if-present run typecheck"
+  },
+  "private": true,
+  "dependencies": {
+    "@replit/connectors-sdk": "^0.4.3"
+  },
+  "devDependencies": {
+    "prettier": "^3.9.10",
+    "typescript": "~5.9.3"
+  }
+}

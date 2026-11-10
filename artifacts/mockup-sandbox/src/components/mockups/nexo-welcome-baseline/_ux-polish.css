@@ -1,0 +1,417 @@
+/* Final readability and responsive pass. Keep all colors tied to the active theme tokens. */
+
+.message-text.markdown {
+  font-size: 15px;
+  line-height: 1.76;
+  overflow-wrap: anywhere;
+}
+
+.message-row.assistant .message-content {
+  max-width: min(100%, 740px);
+  padding-top: 0;
+}
+
+.message-text.markdown > :is(p, h1, h2, h3, h4, ul, ol, blockquote, hr) {
+  max-width: 76ch;
+}
+
+.message-text.markdown > p {
+  margin-block: 0.85em;
+}
+
+.message-text.markdown > :is(h1, h2, h3, h4) {
+  line-height: 1.32;
+  letter-spacing: -0.02em;
+  margin-block: 1.65em 0.58em;
+  text-wrap: pretty;
+}
+
+.message-text.markdown > h1 { font-size: 1.6em; }
+.message-text.markdown > h2 { font-size: 1.3em; }
+.message-text.markdown > h3 { font-size: 1.12em; }
+.message-text.markdown > :first-child { margin-top: 0; }
+
+.message-text.markdown > :is(ul, ol) {
+  padding-inline-start: 1.45em;
+  margin-block: 0.8em 1em;
+}
+
+.message-text.markdown li + li { margin-top: 0.38em; }
+.message-text.markdown blockquote { margin-inline: 0; }
+.message-text.markdown .code-block {
+  width: min(100%, 88ch);
+  max-width: 100%;
+  margin-block: 1.1rem;
+}
+
+.message-text.markdown .code-block pre,
+.ws-editor,
+.ws-console {
+  min-width: 0;
+  max-width: 100%;
+  overflow: auto;
+  scrollbar-gutter: stable;
+}
+
+/* Inline code must hand vertical gestures back to the conversation. */
+.message-text.markdown .code-block pre {
+  overscroll-behavior-x: contain;
+  overscroll-behavior-y: auto;
+}
+
+.ws-editor,
+.ws-console {
+  overscroll-behavior: contain;
+}
+
+.message-text.markdown .code-block pre code,
+.ws-editor pre {
+  white-space: pre;
+  tab-size: 2;
+}
+
+.table-wrap {
+  max-width: 100%;
+  overflow-x: auto;
+  overscroll-behavior-inline: contain;
+}
+
+.composer-wrap {
+  position: relative;
+}
+
+/* Keep the composer restrained, but make keyboard and input focus clear in every palette. */
+.composer-wrap:focus-within {
+  border-color: hsl(var(--primary));
+  box-shadow: 0 0 0 2px hsl(var(--primary) / 0.18), 0 10px 30px -23px rgba(0, 0, 0, 0.52);
+}
+
+.composer textarea::placeholder {
+  color: hsl(var(--muted-foreground));
+  opacity: 1;
+}
+
+.hint-keys,
+.suggestion-text,
+.context-title,
+.thread-empty {
+  color: hsl(var(--muted-foreground));
+  opacity: 1;
+}
+
+.landing-intro,
+.landing-action-note,
+.landing-prompt-copy small,
+.landing-prompt-arrow {
+  color: hsl(var(--muted-foreground));
+  opacity: 1;
+}
+
+.landing-prompt-copy em {
+  color: hsl(var(--primary));
+  opacity: 1;
+}
+
+.thread-select,
+.mode-toggle,
+.icon-btn,
+.send-button,
+.code-copy-button,
+.ws-btn,
+.ws-mini {
+  touch-action: manipulation;
+}
+
+.thread-select { min-height: 42px; }
+.mode-toggle,
+.code-copy-button,
+.ws-mini { min-height: 36px; }
+
+:is(button, a, select, textarea, [role="button"], [role="separator"]):focus-visible {
+  outline: 2px solid hsl(var(--ring) / 0.82);
+  outline-offset: 3px;
+}
+
+.composer textarea:focus-visible {
+  outline: none;
+}
+
+.workspace,
+.ws-editor,
+.ws-out,
+.ws-console {
+  min-width: 0;
+}
+
+.landing-visual {
+  min-height: 340px;
+}
+
+.landing-preview {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-1deg);
+}
+
+.landing-preview-head .lx-pager { margin-left: auto; }
+.landing-wordmark {
+  border: 0;
+  padding: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.landing-wordmark:hover { color: hsl(var(--primary)); }
+.messages { scroll-behavior: auto; }
+
+.ws-editor,
+.ws-console {
+  -webkit-overflow-scrolling: touch;
+}
+
+@media (max-width: 1100px) {
+  .chat-region {
+    padding-inline: clamp(22px, 3.5vw, 36px);
+  }
+}
+
+@media (max-width: 767px) {
+  .topbar {
+    min-height: 56px;
+    height: 56px;
+    padding-inline: 12px;
+  }
+
+  .topbar-left { gap: 8px; }
+  .context-title { max-width: min(52vw, 300px); }
+
+  .chat-region {
+    padding: 18px 16px calc(14px + env(safe-area-inset-bottom));
+  }
+
+  .messages { padding-bottom: 14px; }
+  .message-row { gap: 9px; margin-bottom: 22px; }
+  .message-content { max-width: calc(100% - 38px); }
+  .message-row.user .message-content { max-width: min(88%, calc(100vw - 40px)); }
+  .message-row.user .message-text { padding: 11px 14px; }
+
+  .composer-wrap {
+    padding: 10px 10px 9px 14px;
+    border-radius: 17px;
+  }
+
+  .composer textarea {
+    min-height: 42px;
+    max-height: 160px;
+    font-size: 16px;
+  }
+
+  .composer-hint {
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .mode-toggle,
+  .send-button,
+  .icon-btn {
+    min-width: 40px;
+    min-height: 40px;
+  }
+
+  .hint-keys {
+    flex: 1 1 120px;
+    font-size: 10px;
+    line-height: 1.35;
+    text-align: right;
+  }
+
+  .sidebar.is-open {
+    position: fixed;
+    inset: 0 auto 0 0;
+    z-index: 90;
+    width: min(var(--sb-w, 276px), calc(100vw - 48px));
+    flex-basis: min(var(--sb-w, 276px), calc(100vw - 48px));
+    height: 100dvh;
+    min-height: 100dvh;
+  }
+
+  .sb-sep { display: none; }
+  .scrim { z-index: 80; }
+
+  .workspace {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    width: 100vw;
+    max-width: 100vw;
+    height: 100dvh;
+    min-height: 100dvh;
+    flex: 0 0 100vw;
+  }
+
+  .workspace-resizer { display: none; }
+
+  .ws-head {
+    min-height: 56px;
+    padding-inline: 10px;
+    gap: 7px;
+  }
+
+  .ws-title {
+    min-width: 0;
+    max-width: 25vw;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .ws-select { min-width: 76px; max-width: 104px; }
+  .ws-btn { min-height: 40px; }
+  .ws-out-head { flex-wrap: wrap; gap: 8px; }
+  .ws-out-actions { display: flex; flex-wrap: wrap; gap: 6px; }
+  .landing-visual { min-height: 300px; }
+  .landing-preview {
+    top: auto;
+    left: auto;
+    width: min(320px, 100%);
+    margin: 0;
+    transform: none;
+  }
+
+  .home-landing p {
+    color: hsl(var(--muted-foreground));
+    opacity: 1;
+  }
+}
+
+@media (max-width: 380px) {
+  .chat-region { padding-inline: 12px; }
+  .composer-wrap { padding-inline: 11px; }
+  .hint-keys { display: none; }
+  .ws-head { gap: 5px; padding-inline: 7px; }
+  .ws-title { max-width: 20vw; }
+}
+
+@media (pointer: coarse) {
+  .thread-select,
+  .mode-toggle,
+  .send-button,
+  .icon-btn,
+  .ws-btn {
+    min-height: 42px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Use system colors instead of theme-only decoration in Windows high contrast. */
+@media (forced-colors: active) {
+  body::before,
+  .landing-primary::before {
+    display: none;
+  }
+
+  body,
+  .app-shell,
+  .main-pane,
+  .home-region,
+  .home-landing,
+  .chat-region,
+  .messages {
+    background: Canvas;
+    color: CanvasText;
+  }
+
+  .sidebar,
+  .topbar,
+  .composer-wrap,
+  .workspace,
+  .ws-head,
+  .ws-editor,
+  .ws-out,
+  .ws-console,
+  .landing-preview,
+  .landing-prompt,
+  .suggestion,
+  .message-row.user .message-text {
+    background: Canvas;
+    color: CanvasText;
+    border-color: CanvasText;
+  }
+
+  .landing-wordmark,
+  .landing-intro,
+  .landing-action-note,
+  .landing-prompt-copy small,
+  .landing-prompt-arrow,
+  .landing-prompt-copy em,
+  .context-title,
+  .thread-heading,
+  .thread-select,
+  .thread-empty,
+  .sidebar-settings,
+  .composer-hint,
+  .hint-keys,
+  .ws-title,
+  .ws-out-head,
+  .ws-language-status,
+  .ws-console,
+  .ws-editor .cm-content {
+    color: CanvasText;
+    opacity: 1;
+  }
+
+  .landing-primary,
+  .send-button,
+  .ws-btn.run,
+  .ws-btn.stop {
+    border: 1px solid ButtonText;
+    background: ButtonFace;
+    color: ButtonText;
+    box-shadow: none;
+  }
+
+  .ws-select,
+  .composer textarea {
+    background: Canvas;
+    color: CanvasText;
+  }
+
+  .thread-select.is-active,
+  .mode-toggle.is-on,
+  .mode-toggle[aria-pressed="true"],
+  .ws-snippets button.is-on {
+    border-color: Highlight;
+    background: Highlight;
+    color: HighlightText;
+  }
+
+  .composer-wrap:focus-within {
+    border-color: Highlight;
+    outline: 2px solid Highlight;
+    outline-offset: 3px;
+    box-shadow: none;
+  }
+
+  :is(button, a, select, textarea, [role="button"], [role="separator"]):focus-visible {
+    outline: 2px solid Highlight;
+    outline-offset: 3px;
+  }
+
+  :disabled {
+    color: GrayText;
+    border-color: GrayText;
+  }
+}

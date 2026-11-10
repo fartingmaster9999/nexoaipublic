@@ -1,0 +1,96 @@
+.nx-widget { margin: 6px 0 18px; padding: 16px 18px; border: 1px solid var(--hair-strong, hsl(var(--border))); border-radius: 14px; background: hsl(var(--card)); font-family: var(--app-font-sans); font-size: 14px; line-height: 1.55; color: hsl(var(--foreground)); animation: nxwIn .35s var(--ease-out, ease) both; }
+@keyframes nxwIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+.nx-w-head { margin-bottom: 12px; }
+.nx-w-kicker { font-family: var(--app-font-mono); font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: hsl(var(--primary)); }
+.nx-w-title { margin: 3px 0 0; font-size: 15.5px; font-weight: 600; letter-spacing: -.015em; line-height: 1.35; }
+.nx-w-desc { margin: 4px 0 0; font-size: 13px; color: hsl(var(--foreground) / .62); }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.nx-btn { display: inline-flex; align-items: center; gap: 7px; min-height: 36px; padding: 0 14px; border: 0; border-radius: 9px; background: hsl(var(--primary)); color: hsl(var(--primary-foreground)); font: inherit; font-size: 13px; font-weight: 600; cursor: pointer; transition: filter .15s, opacity .15s; }
+.nx-btn:hover:not(:disabled) { filter: brightness(1.08); }
+.nx-btn:disabled { background: hsl(var(--foreground) / .07); color: hsl(var(--foreground) / .35); cursor: not-allowed; }
+.nx-widget :focus-visible { outline: 2px solid hsl(var(--ring)); outline-offset: 2px; }
+
+/* quiz */
+.nx-quiz-track { display: flex; gap: 4px; margin-top: 12px; }
+.nx-quiz-track i { flex: 1; height: 3px; border-radius: 2px; background: hsl(var(--foreground) / .09); transition: background .2s; }
+.nx-quiz-track i.is-current { background: hsl(var(--primary) / .5); }
+.nx-quiz-track i.is-right { background: hsl(var(--primary)); }
+.nx-quiz-track i.is-wrong { background: #E98E2E; }
+.nx-quiz-prompt { margin: 4px 0 12px; font-size: 15px; font-weight: 500; }
+.nx-quiz-options { display: grid; gap: 6px; }
+.nx-quiz-opt { position: relative; display: flex; align-items: center; gap: 11px; min-height: 44px; padding: 9px 12px; border: 1px solid var(--hair-strong, hsl(var(--border))); border-radius: 10px; cursor: pointer; transition: border-color .15s, background .15s, opacity .15s; }
+.nx-quiz-opt input { position: absolute; opacity: 0; pointer-events: none; }
+.nx-quiz-opt:has(input:focus-visible) { outline: 2px solid hsl(var(--ring)); outline-offset: 2px; }
+.nx-quiz-opt:hover:not(:has(input:disabled)) { border-color: hsl(var(--primary) / .4); background: hsl(var(--primary) / .04); }
+.nx-opt-key { display: grid; place-items: center; width: 22px; height: 22px; flex: 0 0 22px; border-radius: 6px; border: 1px solid var(--hair-strong, hsl(var(--border))); font-family: var(--app-font-mono); font-size: 10.5px; color: hsl(var(--foreground) / .6); }
+.nx-opt-text { flex: 1; overflow-wrap: anywhere; }
+.nx-quiz-opt.is-selected { border-color: hsl(var(--primary)); background: hsl(var(--primary) / .08); }
+.nx-quiz-opt.is-selected .nx-opt-key { background: hsl(var(--primary)); border-color: hsl(var(--primary)); color: hsl(var(--primary-foreground)); }
+.nx-quiz-opt:has(input:disabled) { cursor: default; }
+.nx-quiz-opt.is-right { border-color: hsl(var(--primary) / .7); background: hsl(var(--primary) / .1); }
+.nx-quiz-opt.is-right svg { color: hsl(var(--primary)); }
+.nx-quiz-opt.is-wrong { border-color: #E98E2E99; background: #E98E2E14; }
+.nx-quiz-opt.is-wrong svg { color: #E98E2E; }
+.nx-quiz-opt.is-dim { opacity: .55; }
+.nx-quiz-feedback { margin-top: 12px; padding: 10px 13px; border-left: 2px solid hsl(var(--primary)); border-radius: 0 8px 8px 0; background: hsl(var(--foreground) / .03); font-size: 13.5px; color: hsl(var(--foreground) / .85); animation: nxwIn .25s ease both; }
+.nx-quiz-feedback.is-wrong { border-left-color: #E98E2E; }
+.nx-quiz-actions { display: flex; align-items: center; justify-content: flex-end; gap: 12px; margin-top: 14px; }
+.nx-quiz-tally { margin-right: auto; font-family: var(--app-font-mono); font-size: 11px; color: hsl(var(--muted-foreground)); }
+.nx-quiz-final { display: flex; align-items: center; gap: 18px; padding: 6px 0 12px; }
+.nx-quiz-final p { margin: 0; font-size: 13.5px; color: hsl(var(--foreground) / .7); }
+.nx-quiz-score { display: flex; align-items: baseline; gap: 4px; font-family: var(--app-font-mono); }
+.nx-quiz-score strong { font-size: 40px; font-weight: 500; letter-spacing: -.04em; color: hsl(var(--primary)); line-height: 1; }
+.nx-quiz-score span { color: hsl(var(--muted-foreground)); }
+.nx-quiz-recap { list-style: none; margin: 0; padding: 10px 0 0; border-top: 1px solid var(--hair, hsl(var(--border))); display: grid; gap: 6px; font-size: 13px; }
+.nx-quiz-recap li { display: flex; gap: 8px; align-items: flex-start; color: hsl(var(--foreground) / .78); }
+.nx-quiz-recap svg { margin-top: 3px; }
+.nx-quiz-recap .is-right svg { color: hsl(var(--primary)); }
+.nx-quiz-recap .is-wrong svg { color: #E98E2E; }
+
+/* chart */
+.nx-chart { margin-inline: 0; }
+.nx-legend { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
+.nx-legend-item { display: inline-flex; align-items: center; gap: 7px; min-height: 30px; padding: 0 10px; border: 1px solid var(--hair-strong, hsl(var(--border))); border-radius: 999px; background: transparent; color: hsl(var(--foreground) / .85); font: inherit; font-size: 12px; cursor: pointer; transition: opacity .15s, border-color .15s; }
+.nx-legend-item i { width: 9px; height: 9px; border-radius: 3px; }
+.nx-legend-item.is-off { opacity: .45; text-decoration: line-through; }
+.nx-chart-frame { display: grid; grid-template-columns: auto 1fr; grid-template-rows: 1fr auto; }
+.nx-axis-y { writing-mode: vertical-rl; transform: rotate(180deg); text-align: center; font-family: var(--app-font-mono); font-size: 10.5px; color: hsl(var(--muted-foreground)); padding-left: 2px; }
+.nx-axis-x { grid-column: 2; text-align: center; font-family: var(--app-font-mono); font-size: 10.5px; color: hsl(var(--muted-foreground)); padding-top: 2px; }
+.nx-chart-plot { position: relative; height: 260px; min-width: 0; touch-action: pan-y; }
+.nx-chart-plot.is-donut { grid-column: 1 / -1; height: 240px; }
+.nx-donut-center { position: absolute; inset: 0; display: grid; place-content: center; text-align: center; pointer-events: none; }
+.nx-donut-center b { font-family: var(--app-font-mono); font-size: 22px; font-weight: 500; }
+.nx-donut-center span { font-size: 11px; color: hsl(var(--muted-foreground)); }
+.nx-chart-tip { padding: 8px 10px; border: 1px solid var(--hair-strong, hsl(var(--border))); border-radius: 9px; background: hsl(var(--popover, var(--card))); color: hsl(var(--foreground)); font-size: 12px; box-shadow: 0 10px 30px -14px hsl(222 60% 2% / .6); }
+.nx-tip-x { font-family: var(--app-font-mono); font-size: 10.5px; color: hsl(var(--muted-foreground)); margin-bottom: 4px; }
+.nx-tip-row { display: flex; align-items: center; gap: 7px; }
+.nx-tip-row i, .nx-inspect-v i { width: 8px; height: 8px; border-radius: 2px; display: inline-block; }
+.nx-tip-row b { margin-left: auto; padding-left: 12px; font-family: var(--app-font-mono); font-weight: 500; }
+.nx-inspect { display: flex; align-items: center; gap: 6px; margin-top: 10px; padding: 4px; border: 1px solid var(--hair, hsl(var(--border))); border-radius: 10px; }
+.nx-icon { display: grid; place-items: center; width: 32px; height: 32px; border: 0; border-radius: 7px; background: transparent; color: hsl(var(--foreground) / .7); cursor: pointer; }
+.nx-icon:hover:not(:disabled) { background: hsl(var(--foreground) / .06); }
+.nx-icon:disabled { opacity: .3; cursor: default; }
+.nx-inspect-body { flex: 1; min-width: 0; padding: 3px 6px; border-radius: 6px; font-size: 12.5px; }
+.nx-inspect-body > div { display: flex; flex-wrap: wrap; gap: 4px 14px; align-items: center; }
+.nx-inspect-x { font-family: var(--app-font-mono); font-size: 11px; color: hsl(var(--primary)); }
+.nx-inspect-v { display: inline-flex; align-items: center; gap: 6px; color: hsl(var(--foreground) / .85); }
+.nx-inspect-pos { font-family: var(--app-font-mono); font-size: 10.5px; color: hsl(var(--muted-foreground)); }
+.nx-prov { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; margin-top: 12px; padding-top: 10px; border-top: 1px solid var(--hair, hsl(var(--border))); font-size: 12px; color: hsl(var(--foreground) / .66); }
+.nx-prov-kind { font-family: var(--app-font-mono); font-size: 10px; letter-spacing: .1em; text-transform: uppercase; padding: 2px 7px; border-radius: 5px; background: hsl(var(--primary) / .1); color: hsl(var(--primary)); }
+.nx-prov.is-illustrative .nx-prov-kind { background: #E98E2E1f; color: #E98E2E; }
+.nx-prov-detail { flex: 1 1 200px; }
+.nx-prov-calculations { list-style: none; display: grid; gap: 4px; width: 100%; margin: 2px 0 0; padding: 0; }
+.nx-prov-calculations li { display: flex; flex-wrap: wrap; gap: 2px 12px; overflow-wrap: anywhere; }
+.nx-prov-calculations li span:first-child { font-family: var(--app-font-mono); color: hsl(var(--foreground) / .82); }
+.nx-prov-sources { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 4px 12px; width: 100%; }
+.nx-prov-sources a { display: inline-flex; align-items: center; gap: 4px; color: hsl(var(--primary)); text-decoration: none; overflow-wrap: anywhere; }
+.nx-prov-sources a:hover { text-decoration: underline; }
+.nx-table-wrap { margin-top: 10px; font-size: 12.5px; }
+.nx-table-wrap summary { cursor: pointer; color: hsl(var(--foreground) / .7); font-family: var(--app-font-mono); font-size: 11px; padding: 4px 0; }
+.nx-table-scroll { max-height: 280px; overflow: auto; margin-top: 6px; border: 1px solid var(--hair, hsl(var(--border))); border-radius: 8px; }
+.nx-table-scroll table { width: 100%; border-collapse: collapse; }
+.nx-table-scroll th, .nx-table-scroll td { padding: 5px 10px; text-align: right; border-bottom: 1px solid var(--hair, hsl(var(--border))); font-family: var(--app-font-mono); font-size: 11.5px; white-space: nowrap; }
+.nx-table-scroll th:first-child { text-align: left; }
+.nx-table-scroll thead th { position: sticky; top: 0; background: hsl(var(--card)); font-family: var(--app-font-sans); font-weight: 600; }
+@media (max-width: 767px) { .nx-widget { padding: 14px; } .nx-chart-plot { height: 220px; } .nx-quiz-final { flex-direction: column; align-items: flex-start; gap: 8px; } }
+@media (prefers-reduced-motion: reduce) { .nx-widget, .nx-quiz-feedback, .nx-quiz-track i, .nx-quiz-opt, .nx-legend-item { animation: none !important; transition: none !important; } }

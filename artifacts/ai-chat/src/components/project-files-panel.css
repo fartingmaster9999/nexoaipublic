@@ -1,0 +1,231 @@
+.project-files {
+  --project-line: hsl(var(--border));
+  --project-surface: hsl(var(--card));
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 240px;
+  overflow: hidden;
+  border: 1px solid var(--project-line);
+  border-radius: 12px;
+  background: var(--project-surface);
+  color: hsl(var(--foreground));
+}
+
+.project-files-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  min-height: 58px;
+  padding: 9px 13px;
+  border-bottom: 1px solid var(--project-line);
+}
+
+.project-files-heading,
+.project-files-actions,
+.project-editor-controls {
+  display: flex;
+  align-items: center;
+}
+
+.project-files-heading {
+  min-width: 0;
+  gap: 10px;
+}
+
+.project-files-heading > svg { color: hsl(var(--primary)); flex: 0 0 auto; }
+.project-files-heading h2 { margin: 0; font-size: 12px; font-weight: 650; letter-spacing: -.01em; }
+.project-files-heading span { display: block; margin-top: 3px; color: hsl(var(--muted-foreground)); font: 10px var(--app-font-mono); }
+.project-files-actions { gap: 6px; }
+
+.project-files-action,
+.project-file-delete,
+.project-files-empty button,
+.project-editor-status button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 34px;
+  padding: 6px 9px;
+  border: 1px solid var(--project-line);
+  border-radius: 7px;
+  background: transparent;
+  color: hsl(var(--muted-foreground));
+  font: 11px var(--app-font-sans);
+  cursor: pointer;
+  transition: color .16s ease, border-color .16s ease, background .16s ease;
+}
+
+.project-files-action:hover:not(:disabled),
+.project-file-delete:hover:not(:disabled),
+.project-files-empty button:hover:not(:disabled),
+.project-editor-status button:hover:not(:disabled) {
+  color: hsl(var(--foreground));
+  border-color: hsl(var(--primary) / .5);
+  background: hsl(var(--primary) / .06);
+}
+
+.project-files-action:disabled,
+.project-file-delete:disabled,
+.project-files-empty button:disabled,
+.project-editor-status button:disabled { opacity: .48; cursor: not-allowed; }
+
+.project-files-body {
+  display: grid;
+  grid-template-columns: minmax(180px, 27%) minmax(0, 1fr);
+  flex: 1;
+  min-height: 0;
+}
+
+.project-file-list {
+  min-width: 0;
+  overflow: auto;
+  padding: 8px;
+  border-right: 1px solid var(--project-line);
+}
+
+.project-file-row {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  min-width: 0;
+  min-height: 39px;
+  margin: 2px 0;
+  padding: 2px 4px 2px 0;
+  border: 1px solid transparent;
+  border-radius: 8px;
+}
+
+.project-file-row.is-active {
+  background: hsl(var(--primary) / .075);
+  border-color: hsl(var(--primary) / .2);
+}
+
+.project-file-select {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+  min-width: 0;
+  min-height: 34px;
+  padding: 5px 7px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: hsl(var(--foreground));
+  text-align: left;
+  cursor: pointer;
+}
+
+.project-file-select > svg { flex: 0 0 auto; color: hsl(var(--muted-foreground)); }
+.is-active .project-file-select > svg { color: hsl(var(--primary)); }
+.project-file-name { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 11px; }
+.project-file-parent { min-width: 0; overflow: hidden; color: hsl(var(--muted-foreground)); text-overflow: ellipsis; white-space: nowrap; font-size: 9px; }
+.project-file-share { display: flex; flex: 0 0 auto; align-items: center; gap: 4px; padding: 5px 4px; color: hsl(var(--muted-foreground)); font-size: 9px; cursor: pointer; }
+.project-file-share input { width: 14px; height: 14px; margin: 0; accent-color: hsl(var(--primary)); cursor: pointer; }
+.project-file-share input:disabled { cursor: not-allowed; }
+
+.project-file-editor {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.project-editor-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  min-height: 43px;
+  padding: 5px 10px 5px 13px;
+  border-bottom: 1px solid var(--project-line);
+}
+
+.project-editor-title {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  min-width: 0;
+  overflow: hidden;
+  color: hsl(var(--muted-foreground));
+  font: 10px var(--app-font-mono);
+}
+
+.project-editor-title svg { flex: 0 0 auto; color: hsl(var(--primary)); }
+.project-editor-title span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.project-editor-controls { gap: 7px; }
+.project-file-delete { min-height: 32px; padding-inline: 8px; }
+.project-file-delete:hover:not(:disabled) { color: hsl(var(--destructive)); border-color: hsl(var(--destructive) / .4); background: hsl(var(--destructive) / .06); }
+
+.project-editor-cm { flex: 1; min-width: 0; min-height: 150px; overflow: auto; }
+.project-editor-cm > div,
+.project-editor-cm .cm-editor { min-height: 100%; }
+.project-editor-cm .cm-editor { background: hsl(var(--code-bg)); color: hsl(var(--code-foreground)); font: 12px/1.6 var(--app-font-mono); }
+.project-editor-cm .cm-gutters { background: hsl(var(--code-bg)); border-color: var(--project-line); color: hsl(var(--muted-foreground)); }
+.project-editor-cm .cm-content { padding-block: 10px; }
+.project-editor-cm .cm-focused { outline: none; }
+.project-editor-cm .cm-editor.cm-focused { box-shadow: inset 0 0 0 1px hsl(var(--ring) / .55); }
+
+.project-editor-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  border-bottom: 1px solid var(--project-line);
+  color: hsl(var(--muted-foreground));
+  font-size: 10px;
+}
+
+.project-editor-status button { min-height: 26px; padding: 3px 7px; color: hsl(var(--primary)); font-size: 10px; }
+.project-files-empty,
+.project-editor-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 200px;
+  padding: 20px 14px;
+  color: hsl(var(--muted-foreground));
+  text-align: center;
+}
+.project-files-empty > svg,
+.project-editor-placeholder > svg { color: hsl(var(--primary) / .75); }
+.project-files-empty strong { color: hsl(var(--foreground)); font-size: 12px; font-weight: 600; }
+.project-files-empty span,
+.project-editor-placeholder span { max-width: 220px; font-size: 11px; line-height: 1.5; }
+.project-files-empty button { margin-top: 4px; color: hsl(var(--foreground)); }
+.project-files-empty { min-height: 170px; }
+
+.project-files button:focus-visible,
+.project-files input:focus-visible {
+  outline: 2px solid hsl(var(--ring));
+  outline-offset: 2px;
+}
+
+@media (max-width: 680px) {
+  .project-files { min-height: 0; }
+  .project-files-head { align-items: flex-start; padding: 10px; }
+  .project-files-actions { gap: 5px; }
+  .project-files-action { min-height: 38px; padding-inline: 8px; }
+  .project-files-body { grid-template-columns: minmax(0, 1fr); grid-template-rows: minmax(90px, auto) minmax(250px, 1fr); }
+  .project-file-list { display: flex; gap: 5px; min-height: 0; padding: 7px; overflow-x: auto; overflow-y: hidden; border-right: 0; border-bottom: 1px solid var(--project-line); }
+  .project-file-row { flex: 0 0 auto; max-width: min(82vw, 260px); min-height: 38px; }
+  .project-file-select { flex: 0 1 auto; max-width: 180px; }
+  .project-file-parent { display: none; }
+  .project-file-share { padding-inline: 5px; }
+  .project-editor-toolbar { padding-inline: 9px; }
+  .project-editor-cm { min-height: 220px; }
+  .project-editor-controls { gap: 5px; }
+  .project-file-delete span { display: none; }
+  .project-file-delete { width: 36px; padding: 0; }
+  .project-editor-title { flex: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .project-files * { transition-duration: .01ms !important; }
+}

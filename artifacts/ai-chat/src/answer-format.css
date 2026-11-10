@@ -1,0 +1,197 @@
+/* Adaptive answer typography: clear structure without making every reply feel templated. */
+.message-text.markdown {
+  line-height: 1.78;
+  text-wrap: pretty;
+}
+
+.message-text.markdown > :first-child { margin-top: 0; }
+.message-text.markdown > :last-child { margin-bottom: 0; }
+
+.message-text.markdown > p {
+  max-width: 72ch;
+  margin: 0 0 0.95em;
+}
+
+.message-text.markdown :is(h1, h2, h3, h4) {
+  color: hsl(var(--foreground));
+  font-weight: 620;
+  line-height: 1.32;
+  letter-spacing: -0.022em;
+  text-wrap: balance;
+}
+
+.message-text.markdown > h1 { font-size: 1.55em; margin: 1.5em 0 0.52em; }
+.message-text.markdown > h2 { font-size: 1.28em; margin: 1.55em 0 0.5em; }
+.message-text.markdown > h3 { font-size: 1.12em; margin: 1.35em 0 0.45em; }
+.message-text.markdown > h4 { font-size: 1em; margin: 1.2em 0 0.4em; }
+
+.message-text.markdown > :is(ul, ol) {
+  max-width: 72ch;
+  margin: 0.45em 0 1.05em;
+  padding-inline-start: 1.55em;
+}
+
+.message-text.markdown li {
+  padding-inline-start: 0.15em;
+}
+
+.message-text.markdown li + li { margin-top: 0.38em; }
+.message-text.markdown li::marker { color: hsl(var(--primary)); }
+.message-text.markdown strong { color: hsl(var(--foreground)); font-weight: 650; }
+
+.message-text.markdown a {
+  color: hsl(var(--primary));
+  text-decoration-color: hsl(var(--primary) / 0.48);
+  text-underline-offset: 3px;
+  overflow-wrap: anywhere;
+}
+
+.message-text.markdown a:hover { text-decoration-color: currentColor; }
+
+.message-text.markdown blockquote {
+  max-width: 72ch;
+  margin: 1.1em 0;
+  padding: 0.75em 1em;
+  border-left: 2px solid hsl(var(--primary) / 0.72);
+  border-radius: 0 10px 10px 0;
+  background: hsl(var(--muted) / 0.48);
+  color: hsl(var(--muted-foreground));
+}
+
+.message-text.markdown blockquote > :last-child { margin-bottom: 0; }
+
+.message-text.markdown hr {
+  max-width: 72ch;
+  margin: 1.5em 0;
+  border: 0;
+  border-top: 1px solid hsl(var(--border));
+}
+
+.message-text.markdown :not(pre) > code {
+  padding: 0.12em 0.38em;
+  border: 1px solid hsl(var(--border));
+  border-radius: 5px;
+  background: hsl(var(--muted) / 0.8);
+  color: hsl(var(--foreground));
+  font-size: 0.9em;
+  overflow-wrap: anywhere;
+}
+
+.message-text.markdown .katex-display,
+.markdown .katex-display {
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 0.16em 0.04em;
+  margin: 0.85em 0;
+}
+
+.message-text.markdown .katex-error,
+.markdown .katex-error {
+  display: inline-block;
+  max-width: 100%;
+  padding: 0.04em 0.24em;
+  border-radius: 0.28em;
+  color: hsl(var(--destructive));
+  background: hsl(var(--muted));
+  font: 0.88em/1.5 ui-monospace, SFMono-Regular, Menlo, monospace;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 767px) {
+  .message-text.markdown .katex-display,
+  .markdown .katex-display {
+    font-size: 0.9em;
+  }
+}
+
+.message-text.markdown > .code-block {
+  width: min(100%, 88ch);
+  max-width: 100%;
+  margin: 1.15em 0;
+  overflow: hidden;
+  border: 1px solid hsl(var(--border));
+  border-radius: 12px;
+  background: hsl(var(--code-bg));
+}
+
+.message-text.markdown .code-block-toolbar {
+  display: flex;
+  min-height: 42px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 4px 10px 4px 14px;
+  border-bottom: 1px solid hsl(var(--border));
+  color: hsl(var(--muted-foreground));
+  font-family: var(--app-font-mono);
+  font-size: 11px;
+}
+
+.message-text.markdown .code-copy-button {
+  min-height: 34px;
+  padding-inline: 9px;
+  border-radius: 7px;
+}
+
+.message-text.markdown .code-block pre {
+  max-width: 100%;
+  margin: 0;
+  padding: 14px 16px;
+  overflow-x: auto;
+  overscroll-behavior-inline: contain;
+}
+
+.message-text.markdown .code-block pre code {
+  white-space: pre;
+  overflow-wrap: normal;
+  font-size: 12px;
+  line-height: 1.68;
+}
+
+.message-text.markdown .table-wrap {
+  max-width: 100%;
+  margin: 1.1em 0;
+  overflow-x: auto;
+  overscroll-behavior-inline: contain;
+  border: 1px solid hsl(var(--border));
+  border-radius: 11px;
+}
+
+.message-text.markdown .table-wrap table {
+  width: 100%;
+  min-width: 480px;
+  border: 0;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: 13px;
+}
+
+.message-text.markdown .table-wrap :is(th, td) {
+  padding: 9px 12px;
+  border: 0;
+  border-bottom: 1px solid hsl(var(--border));
+  text-align: left;
+  vertical-align: top;
+}
+
+.message-text.markdown .table-wrap th {
+  background: hsl(var(--muted));
+  color: hsl(var(--foreground));
+  font-weight: 600;
+}
+
+.message-text.markdown .table-wrap tbody tr:nth-child(even) {
+  background: hsl(var(--muted) / 0.26);
+}
+
+.message-text.markdown .table-wrap tbody tr:last-child td { border-bottom: 0; }
+
+@media (max-width: 767px) {
+  .message-text.markdown { font-size: 15px; line-height: 1.72; }
+  .message-text.markdown > h1 { font-size: 1.4em; }
+  .message-text.markdown > h2 { font-size: 1.2em; }
+  .message-text.markdown .code-block pre { padding: 12px; }
+  .message-text.markdown .code-block pre code { font-size: 11px; }
+}

@@ -1,0 +1,37 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "services": {
+    "ai-chat": {
+      "root": "artifacts/ai-chat",
+      "framework": "vite",
+      "installCommand": "cd ../.. && npx --yes pnpm@10.26.1 install --frozen-lockfile --prod=false",
+      "buildCommand": "PORT=5000 BASE_PATH=/ npx --yes pnpm@10.26.1 run build",
+      "outputDirectory": "dist/public"
+    },
+    "api-server": {
+      "root": "artifacts/api-server",
+      "framework": "express",
+      "entrypoint": "src/index.ts",
+      "installCommand": "cd ../.. && npx --yes pnpm@10.26.1 install --frozen-lockfile --prod=false",
+      "buildCommand": "npx --yes pnpm@10.26.1 run build",
+      "functions": {
+        "src/index.ts": {
+          "maxDuration": 180,
+          "supportsCancellation": true
+        }
+      }
+    },
+    "mockup-sandbox": {
+      "root": "artifacts/mockup-sandbox",
+      "framework": "vite",
+      "installCommand": "cd ../.. && npx --yes pnpm@10.26.1 install --frozen-lockfile --prod=false",
+      "buildCommand": "PORT=8081 BASE_PATH=/ npx --yes pnpm@10.26.1 run build",
+      "outputDirectory": "dist"
+    }
+  },
+  "rewrites": [
+    { "source": "/api", "destination": { "service": "api-server" } },
+    { "source": "/api/:path*", "destination": { "service": "api-server" } },
+    { "source": "/(.*)", "destination": { "service": "ai-chat" } }
+  ]
+}

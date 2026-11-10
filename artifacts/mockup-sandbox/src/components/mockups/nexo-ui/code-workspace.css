@@ -1,0 +1,22 @@
+.workspace.workspace-resizable { position: relative; width: var(--workspace-width, 520px); min-width: 0; }
+.workspace-resizer { position: absolute; z-index: 5; top: 0; bottom: 0; left: -5px; width: 10px; cursor: col-resize; touch-action: none; }
+.workspace-resizer::after { content: ''; position: absolute; inset: 0 4px; background: hsl(var(--primary)); opacity: 0; transition: opacity .15s; }
+.workspace-resizer:hover::after, .workspace-resizer:focus-visible::after { opacity: .8; }
+.workspace-resizer:focus-visible { outline: 2px solid hsl(var(--ring)); outline-offset: -2px; }
+.workspace.workspace-resizable .ws-head { flex-shrink: 0; min-width: 0; flex-wrap: wrap; height: auto; padding-block: 6px; }
+.workspace.workspace-resizable .ws-editor { min-height: 80px; }
+.workspace.workspace-resizable .ws-out { min-height: 100px; }
+.workspace.workspace-resizable .ws-out-head { flex-wrap: wrap; }
+.workspace.workspace-resizable .ws-out-actions { flex-wrap: wrap; }
+.ws-language-status { padding: 5px 12px; font-size: 11px; color: hsl(var(--muted-foreground)); border-bottom: 1px solid var(--hair); flex-shrink: 0; }
+.ws-language-status button { margin-left: 8px; background: transparent; border: 0; color: hsl(var(--primary)); text-decoration: underline; cursor: pointer; }
+@media (min-width: 768px) and (max-width: 1100px) {
+  .workspace.workspace-resizable { position: fixed; inset: 0 0 0 auto; }
+}
+@media (max-width: 767px) {
+  .workspace.workspace-resizable { position: fixed; inset: 0; width: 100%; max-width: 100vw; }
+  .workspace-resizer { display: none; }
+  .workspace.workspace-resizable .ws-head { flex-wrap: wrap; height: auto; padding-block: 6px; }
+  .workspace.workspace-resizable .ws-out-actions { margin-left: 0; }
+  .code-copy-button { min-height: 36px; }
+}

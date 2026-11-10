@@ -1,0 +1,72 @@
+/* Final motion pass. Loads last. Calm, one-shot, transform/opacity only. */
+:root {
+  --m-ease: cubic-bezier(.22, 1, .36, 1);
+  --m-fast: 160ms;
+  --m-base: 260ms;
+}
+
+/* Home: drop perpetual decoration; keep a single composed entrance. */
+.home-landing::before, .landing-visual::before, .lx-orbit, .landing-sphere { animation: none; }
+.landing-preview { animation: none; }
+.landing-status i::after { animation-iteration-count: 3; }
+.lx-in { animation-duration: .6s; }
+@keyframes lxIn { from { opacity: 0; transform: translate3d(0, 10px, 0); } to { opacity: 1; transform: none; } }
+.lx-line { animation-duration: .7s; }
+@keyframes lxLineIn { from { opacity: 0; transform: translate3d(0, 12px, 0); } to { opacity: 1; transform: none; } }
+.home-region .composer-wrap { animation: mFade .5s var(--m-ease) .35s both; }
+
+/* Example swap: a short rise without stacking parent/child transforms. */
+.lx-swap > * { animation: mRise .42s var(--m-ease) both; }
+.lx-swap > .lx-steps { animation: none; }
+.lx-steps li { animation: mRise .4s var(--m-ease) both; animation-delay: calc(90ms + var(--i) * 70ms); }
+.lx-pager b { transition: background-color var(--m-base) ease, transform var(--m-base) var(--m-ease); transform: scaleX(.7); }
+.lx-pager b.is-on { transform: scaleX(1); }
+
+/* Buttons: neutral defaults, hover lift only for fine pointers. */
+.landing-primary, .landing-prompt, .welcome .suggestion { transition: transform var(--m-base) var(--m-ease), border-color var(--m-fast) ease, background-color var(--m-fast) ease, box-shadow var(--m-base) ease; }
+.landing-primary:hover, .landing-prompt:hover, .welcome .suggestion:hover:not(:disabled) { transform: none; }
+.landing-prompt:hover .landing-prompt-icon, .landing-primary:hover .landing-primary-icon, .landing-prompt:hover .landing-prompt-arrow { transform: none; }
+@media (hover: hover) and (pointer: fine) {
+  .landing-primary:hover { transform: translateY(-1px); }
+  .landing-primary:hover .landing-primary-icon { transform: translateX(2px); }
+  .landing-prompt:hover { transform: translateY(-2px); }
+  .landing-prompt:hover .landing-prompt-icon { transform: scale(1.04); }
+  .landing-prompt:hover .landing-prompt-arrow { transform: translate(2px, -2px); }
+  .welcome .suggestion:hover:not(:disabled) { transform: translateY(-1px); }
+}
+.landing-primary:active:not(:disabled), .landing-prompt:active:not(:disabled) { transform: scale(.985); transition-duration: 90ms; }
+.icon-btn, .top-btn, .mode-toggle, .send-button, .ws-btn, .ws-mini, .sidebar-settings {
+  transition: background-color var(--m-fast) ease, color var(--m-fast) ease, border-color var(--m-fast) ease, opacity var(--m-fast) ease, transform 120ms var(--m-ease);
+}
+:is(.icon-btn, .top-btn, .mode-toggle, .send-button, .ws-btn, .ws-mini):active:not(:disabled) { transform: scale(.95); }
+.send-button:not(:disabled) { animation: mPop .22s var(--m-ease); }
+.composer-wrap { transition: border-color var(--m-fast) ease, box-shadow var(--m-base) ease; }
+
+/* Messages and chat surfaces: one short rise, no stacking. */
+.message-row { animation: mRise .32s var(--m-ease) both; }
+.conversation-flow { animation: mFade .24s ease both; }
+.term-body, .activity-body { animation: mFade .2s ease both; }
+
+/* Live indicators: slower, quieter, only while present. */
+.rs-label { animation: mStatusBreathe 3.6s ease-in-out infinite; }
+.rs-halo { animation-duration: 4.8s; }
+.brain-ring { animation-duration: 2.4s; }
+.reply-status { animation: mFade .25s ease both; }
+
+@keyframes mRise { from { opacity: 0; transform: translate3d(0, 6px, 0); } to { opacity: 1; transform: none; } }
+@keyframes mFade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes mPop { from { transform: scale(.88); } to { transform: none; } }
+@keyframes mStatusBreathe { 0%, 100% { opacity: .76; } 50% { opacity: 1; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .lx-in, .lx-line, .lx-swap > *, .lx-steps li, .home-region .composer-wrap, .message-row, .conversation-flow,
+  .term-body, .activity-body, .reply-status, .send-button, .landing-status i::after { animation: none !important; }
+  .lx-pager b, .lx-pager b.is-on { transform: none; transition: none; }
+  /* Keep static desktop centering: reduced motion must not remove placement. */
+  @media (min-width: 768px) {
+    .landing-preview { transform: translate(-50%, -50%); }
+  }
+  :is(.icon-btn, .top-btn, .mode-toggle, .send-button, .ws-btn, .ws-mini, .landing-primary, .landing-prompt, .suggestion):is(:active, :hover),
+  .landing-primary:hover .landing-primary-icon,
+  .landing-prompt:hover :is(.landing-prompt-icon, .landing-prompt-arrow) { transform: none !important; }
+}

@@ -1,0 +1,171 @@
+<!doctype html>
+<html><head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline' 'unsafe-eval' 'wasm-unsafe-eval' blob: https://cdn.jsdelivr.net; connect-src https://cdn.jsdelivr.net; worker-src blob:; img-src data: blob:; style-src 'unsafe-inline'; form-action 'none'; base-uri 'none'; frame-src 'none'">
+<title>Isolated Nexo code runner</title>
+</head><body>
+<script id="worker-source" type="text/plain">
+const post = self.postMessage.bind(self);
+const send = (runId, kind, text, dataUrl) => post({type:'output',runId,output:{kind,text,dataUrl}});
+const format = (value) => {
+  if (typeof value === 'string') return value;
+  try { return JSON.stringify(value, null, 2) ?? String(value); } catch { return String(value); }
+};
+let pyodide;
+let javascriptReady = false;
+let lodashValue;
+let mathValue;
+let busy = false;
+
+async function ensurePython(runId) {
+  if (pyodide) return pyodide;
+  send(runId, 'status', 'Starting Python…');
+  importScripts('https://cdn.jsdelivr.net/pyodide/v0.27.7/full/pyodide.js');
+  const runtime = await loadPyodide({indexURL:'https://cdn.jsdelivr.net/pyodide/v0.27.7/full/'});
+  try {
+    await runtime.runPythonAsync('import os as _nexo_os\n_nexo_os.environ["MPLBACKEND"] = "Agg"');
+    pyodide = runtime;
+    return runtime;
+  } catch (error) {
+    runtime.destroy?.();
+    throw error;
+  }
+}
+
+async function runPython(runId, code) {
+  const runtime = await ensurePython(runId);
+  runtime.setStdout({batched: text => send(runId, 'stdout', text)});
+  runtime.setStderr({batched: text => send(runId, 'stderr', text)});
+  send(runId, 'status', 'Loading requested packages…');
+  await runtime.loadPackagesFromImports(code);
+  send(runId, 'status', 'Running Python…');
+  const globals = runtime.runPython('dict()');
+  globals.set('__name__', '__main__');
+  let result;
+  try {
+    result = await runtime.runPythonAsync(code, {globals});
+    if (result !== undefined && result !== null) send(runId, 'stdout', String(result));
+    runtime.globals.set('_nexo_emit_plot', value => send(runId, 'image', undefined, value));
+    await runtime.runPythonAsync(`
+import sys as _nexo_sys
+_nexo_plt = _nexo_sys.modules.get("matplotlib.pyplot")
+if _nexo_plt is not None:
+    import io as _nexo_io, base64 as _nexo_base64
+    for _nexo_number in _nexo_plt.get_fignums():
+        _nexo_buffer = _nexo_io.BytesIO()
+        _nexo_plt.figure(_nexo_number).savefig(_nexo_buffer, format="png", bbox_inches="tight", dpi=100)
+        _nexo_emit_plot("data:image/png;base64," + _nexo_base64.b64encode(_nexo_buffer.getvalue()).decode())
+    _nexo_plt.close("all")
+`);
+  } catch (error) {
+    try {
+      await runtime.runPythonAsync(`
+import sys as _nexo_sys
+_nexo_plt = _nexo_sys.modules.get("matplotlib.pyplot")
+if _nexo_plt is not None:
+    _nexo_plt.close("all")
+`);
+    } catch {}
+    throw error;
+  } finally {
+    result?.destroy?.();
+    globals.destroy?.();
+  }
+}
+
+async function ensureJavaScript(runId) {
+  if (javascriptReady) return;
+  send(runId, 'status', 'Loading JavaScript libraries…');
+  importScripts('https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js');
+  importScripts('https://cdn.jsdelivr.net/npm/mathjs@14.8.1/lib/browser/math.js');
+  lodashValue = self._;
+  mathValue = self.math;
+  javascriptReady = true;
+}
+
+async function runJavaScript(runId, code) {
+  await ensureJavaScript(runId);
+  self._ = lodashValue;
+  self.math = mathValue;
+  const originalConsole = self.console;
+  const consoleProxy = {
+    log:(...args)=>send(runId,'stdout',args.map(format).join(' ')),
+    info:(...args)=>send(runId,'stdout',args.map(format).join(' ')),
+    warn:(...args)=>send(runId,'stderr',args.map(format).join(' ')),
+    error:(...args)=>send(runId,'stderr',args.map(format).join(' ')),
+    table:(...args)=>send(runId,'stdout',args.map(format).join('\n')),
+  };
+  self.console = consoleProxy;
+  send(runId, 'status', 'Running JavaScript…');
+  try {
+    const AsyncFunction = Object.getPrototypeOf(async function(){}).constructor;
+    const value = await new AsyncFunction('_','math','console',code)(lodashValue,mathValue,consoleProxy);
+    if(value !== undefined) send(runId,'stdout',format(value));
+  } finally {
+    self._ = lodashValue;
+    self.math = mathValue;
+    self.console = originalConsole;
+  }
+}
+
+async function handleRun({data}) {
+  if (data?.type !== 'run' || typeof data.runId !== 'string' || typeof data.code !== 'string') return;
+  const {runId, language, code} = data;
+  if (busy) {
+    const error = 'The previous run is still stopping. Try again in a moment.';
+    send(runId, 'stderr', error);
+    post({type:'done',runId,error});
+    return;
+  }
+  busy = true;
+  try {
+    if (language === 'python') await runPython(runId, code);
+    else if (language === 'javascript') await runJavaScript(runId, code);
+    else throw new Error('This language cannot run in the browser sandbox.');
+    post({type:'done',runId});
+  } catch(error) {
+    const message = error instanceof Error ? error.message : String(error);
+    send(runId, 'stderr', message);
+    post({type:'done',runId,error:message});
+  } finally {
+    busy = false;
+    self.onmessage = handleRun;
+  }
+}
+self.onmessage = handleRun;
+</script>
+<script>
+let worker;
+let currentRun;
+const createWorker = () => {
+  const blob = new Blob([document.getElementById('worker-source').textContent],{type:'text/javascript'});
+  const url = URL.createObjectURL(blob);
+  worker = new Worker(url);
+  URL.revokeObjectURL(url);
+  worker.onmessage = ({data: output}) => {
+    if (output?.runId === currentRun) parent.postMessage(output,'*');
+  };
+  worker.onerror = () => {
+    const runId = currentRun;
+    worker?.terminate();
+    worker = null;
+    currentRun = undefined;
+    if (runId) parent.postMessage({type:'done',error:'The code sandbox failed to start. Check your connection and try again.',runId},'*');
+  };
+};
+window.addEventListener('message', (event) => {
+  if (event.source !== parent) return;
+  const data = event.data;
+  if (data?.type === 'stop' && data.runId === currentRun) {
+    worker?.terminate();
+    worker = null;
+    currentRun = undefined;
+    return;
+  }
+  if (data?.type !== 'run' || typeof data.runId !== 'string' || typeof data.code !== 'string') return;
+  currentRun = data.runId;
+  if (!worker) createWorker();
+  worker.postMessage(data);
+});
+</script>
+</body></html>

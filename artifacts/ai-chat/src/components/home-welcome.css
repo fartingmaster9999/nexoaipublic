@@ -1,0 +1,132 @@
+/* Nexo welcome page. Scoped to .nx-welcome to avoid older landing cascade. */
+.nx-header-history { display: inline-flex; align-items: center; gap: 7px; min-height: 36px; margin-left: 8px; padding: 0 12px; flex: 0 0 auto; border: 1px solid hsl(var(--border)); border-radius: 10px; background: transparent; color: hsl(var(--muted-foreground)); font: inherit; font-size: 12px; cursor: pointer; touch-action: manipulation; transition: background-color .18s ease, color .18s ease, border-color .18s ease; }
+.nx-header-history:hover, .nx-header-history[aria-expanded="true"] { color: hsl(var(--foreground)); background: hsl(var(--primary) / .08); border-color: hsl(var(--primary) / .4); }
+.nx-header-history:focus-visible { outline: 2px solid hsl(var(--ring)); outline-offset: 3px; }
+.nx-header-history svg { flex: 0 0 auto; }
+.topbar.is-home .context-title { flex: 0 0 auto; }
+@media (max-width: 420px) { .nx-header-history { margin-left: 0; padding-inline: 8px; gap: 5px; font-size: 11px; } }
+.nx-welcome .nx-start { animation-fill-mode: backwards; }
+.home-landing.nx-welcome { width: min(100%, 760px); max-width: 100%; min-width: 0; overflow-x: clip; justify-content: center; gap: clamp(16px, 3vh, 30px); padding: clamp(10px, 2.4vh, 28px) 0 clamp(12px, 2vh, 22px); }
+.home-landing.nx-welcome::before { inset: -10% -20% 20%; animation: none; background: radial-gradient(ellipse 60% 50% at 50% 30%, hsl(var(--primary) / .11), transparent 70%); }
+
+.nx-in { animation: nxIn .65s cubic-bezier(.22,1,.36,1) backwards; animation-delay: var(--d, 0ms); }
+@keyframes nxIn { from { opacity: 0; transform: translate3d(0, 12px, 0); } to { opacity: 1; transform: none; } }
+@keyframes nxSwap { from { opacity: 0; transform: translate3d(0, 8px, 0) scale(.985); } to { opacity: 1; transform: none; } }
+@keyframes nxFade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes nxMarkIn { from { opacity: 0; transform: scale(.82) rotate(-8deg); } to { opacity: 1; transform: none; } }
+
+:where(.nx-welcome) button:focus-visible { outline: 2px solid hsl(var(--primary)); outline-offset: 3px; }
+
+.nx-center { display: flex; flex-direction: column; align-items: center; text-align: center; }
+.nx-mark { display: grid; place-items: center; width: 60px; height: 60px; margin-bottom: 18px; border: 1px solid hsl(var(--primary) / .28); border-radius: 18px; background: linear-gradient(160deg, hsl(var(--card)), hsl(var(--primary) / .12)); box-shadow: 0 14px 34px -20px hsl(var(--primary) / .7); cursor: pointer; touch-action: manipulation; transition: transform .3s cubic-bezier(.22,1,.36,1), border-color .16s ease, box-shadow .3s ease; }
+.nx-mark.nx-in { animation-name: nxMarkIn; }
+.nx-mark img { width: 34px; height: 34px; object-fit: contain; transition: transform .4s cubic-bezier(.22,1,.36,1); }
+.nx-mark:active { transform: scale(.94); transition-duration: 90ms; }
+.nx-hello { margin: 0 0 10px; color: hsl(var(--primary)); font-size: 13px; font-weight: 600; letter-spacing: .02em; }
+.nx-title { margin: 0; max-width: 16ch; font-size: clamp(32px, 5.2vw, 56px); font-weight: 600; line-height: 1.04; letter-spacing: -.045em; text-wrap: balance; outline: none; }
+.nx-accent { color: hsl(var(--primary)); }
+.nx-intro { max-width: 52ch; margin: 14px 0 20px; color: hsl(var(--muted-foreground)); font-size: 15px; line-height: 1.6; text-wrap: pretty; }
+.nx-actions { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+.nx-primary { position: relative; overflow: hidden; display: inline-flex; align-items: center; gap: 10px; min-height: 48px; padding: 0 22px; border: 1px solid hsl(var(--primary)); border-radius: 999px; background: hsl(var(--primary)); color: hsl(var(--primary-foreground)); font: inherit; font-size: 14px; font-weight: 600; cursor: pointer; touch-action: manipulation; box-shadow: 0 12px 28px -18px hsl(var(--primary) / .85); transition: transform .26s cubic-bezier(.22,1,.36,1), box-shadow .26s ease; }
+.nx-primary::after { content: ''; position: absolute; inset: 0; background: linear-gradient(105deg, transparent 30%, hsl(0 0% 100% / .22) 50%, transparent 70%); transform: translateX(-110%); transition: transform .7s cubic-bezier(.22,1,.36,1); pointer-events: none; }
+.nx-primary svg { transition: transform .26s cubic-bezier(.22,1,.36,1); }
+.nx-primary:active { transform: scale(.97); transition-duration: 90ms; }
+
+/* Ideas */
+.nx-starts { width: 100%; min-width: 0; }
+.nx-starts-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 10px; flex-wrap: wrap; }
+.nx-starts-label { margin: 0; color: hsl(var(--muted-foreground)); font-size: 12.5px; font-weight: 500; }
+.nx-tabs { display: inline-flex; gap: 2px; padding: 3px; border: 1px solid hsl(var(--foreground) / .09); border-radius: 999px; background: hsl(var(--foreground) / .03); max-width: 100%; overflow-x: auto; scrollbar-width: none; }
+.nx-tab { display: inline-flex; align-items: center; gap: 6px; min-height: 34px; padding: 0 12px; border: 0; border-radius: 999px; background: transparent; color: hsl(var(--muted-foreground)); font: inherit; font-size: 12.5px; font-weight: 500; cursor: pointer; touch-action: manipulation; white-space: nowrap; transition: color .16s ease, background-color .2s ease, box-shadow .2s ease, transform .12s ease; }
+.nx-tab:hover { color: hsl(var(--foreground)); }
+.nx-tab.is-on { color: hsl(var(--primary-foreground)); background: hsl(var(--primary)); box-shadow: 0 6px 16px -10px hsl(var(--primary) / .9); }
+.nx-tab:active { transform: scale(.95); }
+.nx-tab svg { transition: transform .3s cubic-bezier(.22,1,.36,1); }
+.nx-tab.is-on svg { transform: rotate(-8deg) scale(1.08); }
+
+.nx-panel { padding: 12px; border: 1px solid hsl(var(--foreground) / .08); border-radius: 18px; background: linear-gradient(180deg, hsl(var(--card) / .75), hsl(var(--card) / .4)); }
+.nx-panel-top { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin: 0 2px 10px; }
+.nx-blurb { margin: 0; min-width: 0; color: hsl(var(--foreground) / .8); font-size: 12.5px; animation: nxFade .35s ease both; }
+.nx-shuffle { flex: 0 0 auto; display: inline-flex; align-items: center; gap: 6px; min-height: 32px; padding: 0 10px; border: 1px solid hsl(var(--foreground) / .1); border-radius: 999px; background: transparent; color: hsl(var(--muted-foreground)); font: inherit; font-size: 12px; cursor: pointer; touch-action: manipulation; transition: color .16s ease, border-color .16s ease, background-color .16s ease, transform .12s ease; }
+.nx-shuffle svg { transition: transform .45s cubic-bezier(.22,1,.36,1); }
+.nx-shuffle:hover { color: hsl(var(--foreground)); border-color: hsl(var(--primary) / .4); background: hsl(var(--primary) / .07); }
+.nx-shuffle:active { transform: scale(.95); }
+.nx-shuffle:active svg { transform: rotate(180deg); }
+
+.nx-start-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.nx-start { display: flex; align-items: flex-start; gap: 11px; min-width: 0; min-height: 64px; padding: 11px 12px; border: 1px solid hsl(var(--foreground) / .09); border-radius: 14px; background: hsl(var(--background) / .55); color: hsl(var(--foreground)); font: inherit; text-align: left; cursor: pointer; touch-action: manipulation; animation: nxSwap .42s cubic-bezier(.22,1,.36,1) both; animation-delay: calc(var(--i, 0) * 70ms); transition: transform .26s cubic-bezier(.22,1,.36,1), border-color .16s ease, background-color .16s ease, box-shadow .26s ease; }
+.nx-start:hover { border-color: hsl(var(--primary) / .38); background: hsl(var(--primary) / .06); }
+.nx-start:active { transform: scale(.98); transition-duration: 90ms; }
+.nx-start.is-picked { border-color: hsl(var(--primary) / .6); background: hsl(var(--primary) / .09); box-shadow: inset 0 0 0 1px hsl(var(--primary) / .25); }
+.nx-start-icon { display: grid; place-items: center; flex: 0 0 auto; width: 34px; height: 34px; border-radius: 10px; background: hsl(var(--primary) / .1); color: hsl(var(--primary)); transition: transform .3s cubic-bezier(.22,1,.36,1), background-color .16s ease; }
+.nx-start-copy { min-width: 0; flex: 1 1 auto; }
+.nx-start-copy b { display: block; font-size: 13px; font-weight: 600; }
+.nx-start-copy small { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin-top: 3px; color: hsl(var(--muted-foreground)); font-size: 11.5px; line-height: 1.4; }
+.nx-start-use { flex: 0 0 auto; display: inline-flex; align-items: center; gap: 4px; align-self: center; padding: 4px 8px; border-radius: 999px; color: hsl(var(--muted-foreground)); font-size: 11px; font-weight: 600; transition: color .16s ease, background-color .16s ease, transform .26s cubic-bezier(.22,1,.36,1); }
+.nx-start:hover .nx-start-use, .nx-start:focus-visible .nx-start-use { color: hsl(var(--primary)); background: hsl(var(--primary) / .1); }
+.nx-start.is-picked .nx-start-use { color: hsl(var(--primary-foreground)); background: hsl(var(--primary)); }
+.nx-hint { margin: 10px 2px 0; color: hsl(var(--muted-foreground)); font-size: 11.5px; }
+
+@media (hover: hover) and (pointer: fine) {
+  .nx-mark:hover { transform: translateY(-2px); border-color: hsl(var(--primary) / .5); box-shadow: 0 18px 38px -20px hsl(var(--primary) / .85); }
+  .nx-mark:hover img { transform: rotate(-6deg) scale(1.05); }
+  .nx-primary:hover { transform: translateY(-1px); box-shadow: 0 16px 32px -18px hsl(var(--primary) / .95); }
+  .nx-primary:hover::after { transform: translateX(110%); }
+  .nx-primary:hover svg { transform: translateX(3px); }
+  .nx-start:hover { transform: translateY(-2px); box-shadow: 0 14px 28px -22px hsl(var(--primary) / .8); }
+  .nx-start:hover .nx-start-icon { transform: scale(1.06) rotate(-4deg); }
+  .nx-start:hover .nx-start-use { transform: translateX(2px); }
+  .nx-shuffle:hover svg { transform: rotate(-30deg); }
+}
+
+@media (max-width: 767px) {
+  .home-landing.nx-welcome { justify-content: flex-start; gap: 14px; padding: 6px 0 10px; }
+  .nx-mark { width: 48px; height: 48px; margin-bottom: 12px; border-radius: 14px; }
+  .nx-mark img { width: 28px; height: 28px; }
+  .nx-title { font-size: clamp(28px, 9vw, 40px); }
+  .nx-intro { margin: 10px 0 14px; font-size: 14px; line-height: 1.5; }
+  .nx-starts-head { justify-content: center; }
+  .nx-starts-label { width: 100%; text-align: center; }
+  .nx-start-list { grid-template-columns: minmax(0, 1fr); gap: 6px; }
+  .nx-start { min-height: 56px; padding: 9px 10px; }
+  .nx-start-copy small { -webkit-line-clamp: 1; }
+  .nx-panel { padding: 10px; }
+  .nx-shuffle span { display: none; }
+  .nx-shuffle { width: 36px; justify-content: center; padding: 0; }
+  .nx-hint { display: none; }
+}
+@media (max-height: 760px) {
+  .nx-mark { display: none; }
+  .nx-intro { margin: 8px 0 12px; }
+  .nx-hint { display: none; }
+}
+@media (min-width: 768px) and (max-height: 850px) {
+  .home-landing.nx-welcome { padding-block: 10px; gap: 20px; }
+  .nx-mark { width: 48px; height: 48px; margin-bottom: 12px; }
+  .nx-mark img { width: 28px; height: 28px; }
+  .nx-title { font-size: 48px; }
+  .nx-intro { margin: 12px 0 16px; font-size: 14px; }
+  .nx-start-copy small { -webkit-line-clamp: 1; }
+}
+@media (max-height: 620px) {
+  .nx-intro, .nx-hello, .nx-blurb { display: none; }
+  .nx-panel-top { justify-content: flex-end; margin-bottom: 6px; }
+  .nx-start-copy small { display: none; }
+  .nx-start { min-height: 48px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nx-header-history { transition: none !important; }
+  .nx-in, .nx-start, .nx-blurb { animation: none !important; }
+  .nx-welcome *, .nx-welcome *::after { transition: none !important; }
+  .nx-welcome :is(button, button *, img):is(:hover, :active, *) { transform: none !important; }
+  .nx-primary::after { display: none; }
+}
+@media (forced-colors: active) {
+  .nx-header-history { border-color: ButtonText; color: ButtonText; background: ButtonFace; }
+  .home-landing.nx-welcome::before, .nx-primary::after { display: none; }
+  .nx-start, .nx-mark, .nx-tab, .nx-shuffle, .nx-panel, .nx-tabs { background: Canvas; color: CanvasText; border: 1px solid CanvasText; }
+  .nx-tab.is-on, .nx-start.is-picked .nx-start-use { background: Highlight; color: HighlightText; }
+  .nx-primary { background: ButtonFace; color: ButtonText; border-color: ButtonText; box-shadow: none; }
+  .nx-hello, .nx-accent, .nx-intro, .nx-starts-label, .nx-blurb, .nx-hint, .nx-start-copy small, .nx-start-icon, .nx-start-use { color: CanvasText; background: transparent; }
+}

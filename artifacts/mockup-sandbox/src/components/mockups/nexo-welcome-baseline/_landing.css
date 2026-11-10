@@ -1,0 +1,209 @@
+/* Nexo home landing + coordinated motion. Loads after refine.css. */
+:root {
+  --ease-spring: cubic-bezier(.34,1.3,.5,1);
+  --ease-fluid: cubic-bezier(.22,1,.36,1);
+}
+
+/* Entrance choreography */
+.lx-in { animation: lxIn .82s var(--ease-fluid) backwards; animation-delay: var(--d, 0ms); }
+@keyframes lxIn {
+  from { opacity: 0; transform: translate3d(0, 18px, 0) scale(.99); }
+  to { opacity: 1; transform: translate3d(0, 0, 0) scale(1); }
+}
+@keyframes lxLineIn {
+  from { opacity: 0; transform: perspective(700px) translate3d(0, 24px, 0) rotateX(-7deg); }
+  to { opacity: 1; transform: perspective(700px) translate3d(0, 0, 0) rotateX(0); }
+}
+@keyframes lxAmbient {
+  0%, 100% { opacity: .52; transform: translate3d(-2%, 0, 0) scale(.96); }
+  50% { opacity: .78; transform: translate3d(2%, -2%, 0) scale(1.04); }
+}
+@keyframes lxPreviewFloat {
+  0%, 100% { translate: 0 0; }
+  50% { translate: 0 -5px; }
+}
+@keyframes lxSwapIn {
+  from { opacity: 0; transform: translate3d(0, 9px, 0) scale(.99); }
+  to { opacity: 1; transform: translate3d(0, 0, 0) scale(1); }
+}
+@keyframes lxStepIn {
+  from { opacity: 0; transform: translate3d(0, 8px, 0); }
+  to { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+
+.home-region { max-width: 1240px; padding-inline: clamp(20px, 5vw, 72px); }
+.home-region .messages { display: flex; flex-direction: column; padding: 0 0 16px; }
+.home-region .composer-wrap { animation: lxIn .7s var(--ease-out) .5s both; }
+.home-landing { position: relative; isolation: isolate; display: flex; flex: 1; flex-direction: column; justify-content: center; width: min(100%, 1080px); min-height: max-content; margin: 0 auto; padding: clamp(18px, 3.8vh, 42px) 0 24px; }
+.home-landing::before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  inset: -5% -8%;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at 72% 42%, hsl(var(--primary) / .12), transparent 34%),
+    radial-gradient(ellipse at 18% 70%, hsl(var(--primary) / .055), transparent 38%);
+  animation: lxAmbient 13s ease-in-out infinite;
+}
+
+.landing-topline { display: flex; align-items: center; justify-content: space-between; gap: 14px; margin-bottom: clamp(18px, 3.5vh, 36px); }
+.landing-wordmark { display: inline-flex; align-items: center; gap: 8px; color: hsl(var(--muted-foreground)); font-size: 10px; font-weight: 700; letter-spacing: .18em; }
+.landing-wordmark img { width: 20px; height: 20px; object-fit: contain; }
+.landing-status { display: inline-flex; align-items: center; gap: 8px; padding: 5px 11px; border: 1px solid var(--hair-strong); border-radius: 999px; color: hsl(var(--muted-foreground)); font-family: var(--app-font-mono); font-size: 10px; letter-spacing: .06em; }
+.landing-status i { position: relative; width: 6px; height: 6px; border-radius: 50%; background: hsl(var(--primary)); }
+.landing-status i::after { content: ''; position: absolute; inset: 0; border-radius: 50%; background: hsl(var(--primary)); animation: lxPing 2.4s var(--ease-out) infinite; }
+@keyframes lxPing { from { opacity: .7; transform: scale(1); } to { opacity: 0; transform: scale(3); } }
+
+.landing-hero { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(330px, .9fr); align-items: center; gap: clamp(24px, 5vw, 72px); }
+.landing-copy { max-width: 580px; }
+.landing-hero h1 { margin: 0; font-size: clamp(40px, 5.4vw, 70px); font-weight: 600; line-height: 1; letter-spacing: -.055em; }
+.landing-hero h1.lx-in { animation: none; }
+.lx-line { display: block; animation: lxLineIn .9s var(--ease-fluid) both; }
+.lx-line + .lx-line { animation-delay: 120ms; }
+.lx-accent { color: hsl(var(--primary)); }
+.landing-intro { max-width: 480px; margin: 22px 0 26px; color: hsl(var(--foreground) / .64); font-size: 15px; line-height: 1.7; }
+.landing-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 16px; }
+.landing-primary { position: relative; display: inline-flex; align-items: center; gap: 12px; min-height: 50px; padding: 0 6px 0 20px; overflow: hidden; border: 1px solid hsl(var(--primary) / .72); border-radius: 14px; background: hsl(var(--primary)); color: hsl(var(--primary-foreground)); font-size: 14px; font-weight: 600; cursor: pointer; box-shadow: 0 14px 34px -18px hsl(var(--primary) / .8); transition: transform .3s var(--ease-spring), box-shadow .3s; }
+.landing-primary::before { content: ''; position: absolute; inset: 0; background: linear-gradient(100deg, transparent 30%, hsl(0 0% 100% / .28) 50%, transparent 70%); transform: translateX(-120%); transition: transform .7s var(--ease-out); }
+.landing-primary:hover { transform: translateY(-2px); box-shadow: 0 18px 40px -16px hsl(var(--primary) / .9); }
+.landing-primary:hover::before { transform: translateX(120%); }
+.landing-primary:active { transform: scale(.97); transition-duration: .1s; }
+.landing-primary:focus-visible { outline: 2px solid hsl(var(--ring)); outline-offset: 3px; }
+.landing-primary-icon { display: grid; place-items: center; width: 38px; height: 38px; border-radius: 10px; background: hsl(var(--primary-foreground) / .14); transition: transform .3s var(--ease-spring); }
+.landing-primary:hover .landing-primary-icon { transform: translateX(3px); }
+.landing-action-note { color: hsl(var(--muted-foreground)); font-size: 12px; }
+
+/* Visual */
+.landing-visual { position: relative; display: grid; place-items: center; min-height: 380px; isolation: isolate; }
+.landing-visual::before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  width: min(82%, 390px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle, hsl(var(--primary) / .17), hsl(var(--primary) / .045) 38%, transparent 70%);
+  filter: blur(16px);
+  pointer-events: none;
+  animation: lxAmbient 10s ease-in-out infinite reverse;
+}
+.lx-orbit { position: absolute; border: 1px solid hsl(var(--primary) / .16); border-radius: 50%; pointer-events: none; }
+.lx-orbit i { position: absolute; top: -4px; left: 50%; width: 7px; height: 7px; margin-left: -3.5px; border-radius: 50%; background: hsl(var(--primary)); box-shadow: 0 0 0 4px hsl(var(--primary) / .15); }
+.lx-orbit-a { width: 330px; height: 330px; animation: lxSpin 38s linear infinite; }
+.lx-orbit-b { width: 220px; height: 220px; border-color: hsl(var(--foreground) / .08); animation: lxSpin 26s linear infinite reverse; }
+.lx-orbit-b i { background: hsl(var(--foreground) / .6); box-shadow: none; width: 5px; height: 5px; }
+@keyframes lxSpin { to { transform: rotate(360deg); } }
+.landing-glow { position: absolute; width: 240px; height: 240px; border-radius: 50%; background: radial-gradient(circle, hsl(var(--primary) / .24), transparent 68%); z-index: -1; }
+.landing-sphere { position: absolute; z-index: 1; right: 8%; bottom: 8%; display: grid; place-items: center; width: 92px; height: 92px; border: 1px solid hsl(var(--primary) / .38); border-radius: 26px; background: linear-gradient(145deg, hsl(var(--card)), hsl(var(--primary) / .18)); box-shadow: 0 16px 50px hsl(var(--primary) / .2), inset 0 1px hsl(var(--foreground) / .12); animation: lxFloat 7s ease-in-out infinite; }
+.landing-sphere img { width: 52px; height: 52px; object-fit: contain; }
+@keyframes lxFloat { 0%,100% { transform: translateY(0) rotate(8deg); } 50% { transform: translateY(-10px) rotate(4deg); } }
+
+.landing-preview { position: absolute; z-index: 2; top: 8%; left: 2%; width: min(370px, 92%); padding: 15px; border: 1px solid hsl(var(--foreground) / .12); border-radius: 18px; background: hsl(var(--card) / .97); box-shadow: 0 28px 70px -20px hsl(222 70% 2% / .55), inset 0 1px hsl(var(--foreground) / .07); transform-origin: 50% 50%; animation: lxPreviewFloat 8s ease-in-out infinite; }
+.landing-preview-head { display: flex; align-items: center; gap: 9px; padding-bottom: 12px; border-bottom: 1px solid hsl(var(--foreground) / .08); color: hsl(var(--muted-foreground)); font-family: var(--app-font-mono); font-size: 9.5px; letter-spacing: .12em; }
+.landing-window-dots { display: flex; gap: 4px; }
+.landing-window-dots i { width: 6px; height: 6px; border-radius: 50%; background: hsl(var(--foreground) / .18); }
+.landing-window-dots i:first-child { background: hsl(var(--primary)); }
+.lx-pager { display: flex; gap: 4px; margin-left: auto; }
+.lx-pager b { width: 14px; height: 3px; border-radius: 2px; background: hsl(var(--foreground) / .14); transform-origin: left; }
+.lx-pager b.is-on { background: hsl(var(--primary)); }
+.lx-swap { min-height: 150px; }
+.lx-swap > * { animation: lxSwapIn .62s var(--ease-fluid) both; }
+.landing-preview-question { margin: 14px 0 12px; padding: 10px 12px; border: 1px solid hsl(var(--primary) / .18); border-radius: 12px 12px 4px 12px; background: hsl(var(--primary) / .09); color: hsl(var(--foreground) / .9); font-size: 12px; line-height: 1.5; }
+.lx-steps { display: grid; gap: 6px; margin: 0; padding: 0; list-style: none; }
+.lx-steps li { display: flex; gap: 10px; align-items: baseline; padding: 7px 10px; border: 1px solid var(--hair); border-radius: 9px; color: hsl(var(--foreground) / .8); font-size: 11.5px; animation: lxStepIn .58s var(--ease-fluid) both; animation-delay: calc(150ms + var(--i) * 95ms); }
+.lx-steps li span { color: hsl(var(--primary)); font-family: var(--app-font-mono); font-size: 9.5px; }
+.lx-caption { margin-top: 11px; color: hsl(var(--muted-foreground) / .8); font-family: var(--app-font-mono); font-size: 9px; letter-spacing: .04em; }
+
+/* Prompts */
+.landing-start-heading { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; margin: clamp(18px, 3vh, 32px) 0 12px; }
+.landing-start-heading h2 { margin: 0; font-size: 17px; font-weight: 600; letter-spacing: -.025em; }
+.landing-start-hint { color: hsl(var(--muted-foreground)); font-size: 11px; text-align: right; }
+.landing-prompts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin-top: clamp(10px, 1.4vw, 16px); }
+.landing-prompt { position: relative; display: flex; align-items: center; gap: 12px; min-width: 0; min-height: 76px; padding: 12px 13px; overflow: hidden; border: 1px solid hsl(var(--foreground) / .09); border-radius: 14px; background: hsl(var(--foreground) / .02); color: hsl(var(--foreground)); text-align: left; cursor: pointer; transition: transform .38s var(--ease-fluid), border-color .28s ease, background .28s ease, box-shadow .38s ease; }
+.landing-prompt::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 2px; background: hsl(var(--primary)); transform: scaleX(0); transform-origin: left; transition: transform .4s var(--ease-out); }
+.landing-prompt:hover { transform: translate3d(0, -4px, 0) scale(1.008); border-color: hsl(var(--primary) / .36); background: hsl(var(--primary) / .055); box-shadow: 0 14px 32px -24px hsl(var(--primary) / .72); }
+.landing-prompt:hover::after, .landing-prompt:focus-visible::after { transform: scaleX(1); }
+.landing-prompt:active { transform: scale(.98); transition-duration: .1s; }
+.landing-prompt-icon { display: grid; place-items: center; width: 38px; height: 38px; flex: 0 0 auto; border: 1px solid hsl(var(--primary) / .18); border-radius: 11px; background: hsl(var(--primary) / .08); color: hsl(var(--primary)); transition: transform .42s var(--ease-fluid), background .28s ease, border-color .28s ease; }
+.landing-prompt:hover .landing-prompt-icon { transform: rotate(-8deg) scale(1.06); }
+.landing-prompt-copy { display: block; min-width: 0; }
+.landing-prompt-copy em { display: block; margin-bottom: 3px; color: hsl(var(--primary)); font-family: var(--app-font-mono); font-size: 9px; font-style: normal; letter-spacing: .14em; text-transform: uppercase; }
+.landing-prompt-copy b, .landing-prompt-copy small { display: block; overflow: hidden; text-overflow: ellipsis; }
+.landing-prompt-copy b { font-size: 13px; font-weight: 600; white-space: nowrap; }
+.landing-prompt-copy small { margin-top: 3px; color: hsl(var(--muted-foreground)); font-size: 11px; line-height: 1.4; }
+.landing-prompt-arrow { margin-left: auto; color: hsl(var(--muted-foreground)); transition: color .2s, transform .3s var(--ease-spring); }
+.landing-prompt:hover .landing-prompt-arrow { color: hsl(var(--primary)); transform: translate(2px, -2px); }
+@media (hover: none) {
+  .landing-prompt:hover { transform: none; box-shadow: none; }
+  .landing-prompt:hover .landing-prompt-icon { transform: none; }
+}
+
+/* Chat-side transitions (light, one-shot) */
+.chat-region:not(.home-region) .welcome-logo { animation: lxPop .6s var(--ease-spring) both; }
+@keyframes lxPop { from { opacity: 0; transform: scale(.8); } to { opacity: 1; transform: none; } }
+.welcome .suggestion { transition: transform .3s var(--ease-spring), border-color .15s, background .15s; }
+.welcome .suggestion:hover:not(:disabled) { transform: translateY(-2px); }
+.conversation-flow { animation: lxFade .35s var(--ease-out) both; }
+@keyframes lxFade { from { opacity: 0; } to { opacity: 1; } }
+.send-button:not(:disabled) { animation: lxPop .3s var(--ease-spring); }
+.deep-toggle .deep-icon { transition: transform .35s var(--ease-spring); }
+.deep-toggle.is-on .deep-icon { transform: rotate(-12deg) scale(1.08); }
+.thread-select { transition: background .15s, color .15s, transform .2s var(--ease-out); }
+.thread-select:active { transform: scale(.98); }
+.sidebar:not(.is-collapsed) { animation: lxSide .3s var(--ease-out) both; }
+@keyframes lxSide { from { opacity: 0; transform: translateX(-10px); } to { opacity: 1; transform: none; } }
+@media (max-width: 767px) { .sidebar:not(.is-collapsed) { animation: none; } }
+
+/* Responsive */
+@media (max-width: 960px) {
+  .home-region { padding-inline: clamp(20px, 4vw, 38px); }
+  .home-landing { justify-content: flex-start; }
+  .landing-hero { gap: 18px; grid-template-columns: minmax(0, 1fr) minmax(260px, .9fr); }
+  .landing-hero h1 { font-size: clamp(32px, 4.4vw, 44px); }
+  .landing-visual { min-height: 300px; }
+  .lx-orbit-a { width: 260px; height: 260px; }
+  .landing-preview { width: min(310px, 96%); }
+}
+@media (max-width: 767px) {
+  .home-region { padding-inline: 15px; }
+  .home-region .messages { padding-top: 10px; }
+  .home-landing { padding: 10px 0 14px; }
+  .landing-topline { margin-bottom: 18px; }
+  .landing-status { display: none; }
+  .landing-hero { grid-template-columns: minmax(0, 1fr); gap: 10px; }
+  .landing-hero h1 { font-size: clamp(34px, 10vw, 48px); }
+  .landing-intro { margin: 14px 0 18px; font-size: 14px; line-height: 1.55; }
+  .landing-primary { min-height: 48px; font-size: 13.5px; }
+  .landing-visual { min-height: 300px; margin-top: 6px; padding: 10px 0 24px; }
+  .lx-orbit-a { width: 210px; height: 210px; }
+  .lx-orbit-b { width: 140px; height: 140px; }
+  .landing-preview { position: relative; top: auto; left: auto; width: min(320px, 86%); margin-right: 28px; padding: 12px; }
+  .lx-swap { min-height: 140px; }
+  .landing-sphere { width: 60px; height: 60px; border-radius: 18px; right: 2%; bottom: 4%; }
+  .landing-sphere img { width: 34px; height: 34px; }
+  .landing-start-heading { margin: 10px 0 8px; }
+  .landing-start-hint { display: none; }
+  .landing-prompts { grid-template-columns: minmax(0, 1fr); gap: 7px; }
+  .landing-prompt { min-height: 60px; padding: 9px 11px; }
+  .landing-prompt-copy small { white-space: nowrap; }
+}
+@media (max-height: 700px) and (min-width: 768px) {
+  .home-landing { padding-block: 10px; }
+  .landing-topline { margin-bottom: 12px; }
+  .landing-visual { min-height: 300px; }
+  .landing-start-heading { margin-top: 12px; }
+}
+/* On compact phones, prioritize actionable prompts over the decorative example. */
+@media (max-height: 850px) and (max-width: 767px) { .landing-visual { display: none; } }
+@media (max-height: 520px) { .landing-visual, .landing-intro { display: none; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .lx-in, .lx-line, .lx-swap > *, .lx-steps li, .lx-orbit, .landing-sphere, .landing-preview,
+  .home-landing::before, .landing-visual::before, .landing-status i::after,
+  .home-region .composer-wrap, .welcome-logo, .conversation-flow, .send-button, .sidebar { animation: none !important; }
+  .landing-primary, .landing-primary::before, .landing-primary-icon, .landing-prompt, .landing-prompt::after,
+  .landing-prompt-icon, .landing-prompt-arrow, .deep-icon, .thread-select, .welcome .suggestion { transition: none !important; }
+  .landing-primary:hover, .landing-prompt:hover, .landing-prompt:hover .landing-prompt-icon, .landing-primary:hover .landing-primary-icon { transform: none; }
+  .landing-sphere, .landing-preview { transform: none; }
+}

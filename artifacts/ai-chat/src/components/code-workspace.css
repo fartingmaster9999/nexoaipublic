@@ -1,0 +1,117 @@
+.workspace.workspace-resizable { position: relative; width: var(--workspace-width, 520px); min-width: 0; }
+.workspace-resizer { position: absolute; z-index: 5; top: 0; bottom: 0; left: -5px; width: 10px; cursor: col-resize; touch-action: none; }
+.workspace-resizer::after { content: ''; position: absolute; inset: 0 4px; background: hsl(var(--primary)); opacity: 0; transition: opacity .15s; }
+.workspace-resizer:hover::after, .workspace-resizer:focus-visible::after { opacity: .8; }
+.workspace-resizer:focus-visible { outline: 2px solid hsl(var(--ring)); outline-offset: -2px; }
+.workspace.workspace-resizable .ws-head { flex-shrink: 0; min-width: 0; flex-wrap: wrap; height: auto; padding-block: 6px; }
+.workspace.workspace-resizable .ws-agent-label { margin-left: 2px; color: hsl(var(--primary)); font-size: 10px; font-weight: 600; letter-spacing: .03em; white-space: nowrap; }
+.workspace.workspace-resizable .ws-project-label { margin-left: 4px; color: hsl(var(--muted-foreground)); font: 10px var(--app-font-mono); white-space: nowrap; }
+.workspace.workspace-resizable .ws-editor { min-height: 80px; }
+.workspace.workspace-resizable .ws-out { min-height: 100px; }
+.workspace.workspace-resizable .ws-out-head { flex-wrap: wrap; }
+.workspace.workspace-resizable .ws-out-actions { flex-wrap: wrap; }
+.ws-preview-pane { display: flex; flex: 1 1 auto; flex-direction: column; min-width: 0; min-height: 0; overflow: hidden; }
+.ws-preview-pane .ws-preview { display: block; flex: 1 1 auto; width: 100%; min-height: 140px; border: 0; background: #fff; }
+.ws-preview-status { flex: 0 0 auto; margin: 0; padding: 6px 12px; border-top: 1px solid hsl(var(--border)); color: hsl(var(--muted-foreground)); font-size: 10.5px; line-height: 1.4; }
+.ws-preview-diagnostics { flex: 0 0 auto; max-height: 112px; overflow: auto; padding: 7px 12px 9px; border-top: 1px solid hsl(2 70% 55% / .35); background: hsl(2 55% 12% / .22); color: hsl(var(--foreground)); font-size: 10.5px; }
+.ws-preview-diagnostics strong { color: hsl(2 82% 72%); font-size: 10px; letter-spacing: .04em; text-transform: uppercase; }
+.ws-preview-diagnostics ul { display: grid; gap: 4px; margin: 5px 0 0; padding: 0; list-style: none; }
+.ws-preview-diagnostics li { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 2px 7px; align-items: baseline; }
+.ws-preview-diagnostics li > span { color: hsl(2 82% 72%); font-family: var(--app-font-mono); }
+.ws-preview-diagnostics code { min-width: 0; overflow-wrap: anywhere; font-family: var(--app-font-mono); }
+.ws-preview-diagnostics small { grid-column: 2; color: hsl(var(--muted-foreground)); overflow-wrap: anywhere; }
+.ws-language-status { padding: 5px 12px; font-size: 11px; color: hsl(var(--muted-foreground)); border-bottom: 1px solid var(--hair); flex-shrink: 0; }
+.ws-language-status button { margin-left: 8px; background: transparent; border: 0; color: hsl(var(--primary)); text-decoration: underline; cursor: pointer; }
+@media (min-width: 768px) and (max-width: 1100px) {
+  .workspace.workspace-resizable { position: fixed; inset: 0 0 0 auto; }
+}
+@media (max-width: 767px) {
+  .workspace.workspace-resizable { position: fixed; inset: 0; width: 100%; max-width: 100vw; }
+  .workspace-resizer { display: none; }
+  .workspace.workspace-resizable .ws-head { flex-wrap: wrap; height: auto; padding-block: 6px; }
+  .workspace.workspace-resizable .ws-out-actions { margin-left: 0; }
+  .code-copy-button { min-height: 36px; }
+}
+
+/* Immersive Agent workspace: full-screen inside Nexo, chat docked compact on the left. */
+.app-shell.is-agent-full > .sidebar, .app-shell.is-agent-full > .sb-sep, .app-shell.is-agent-full > .scrim { display: none; }
+.app-shell.is-agent-full > .main-pane { flex: 0 0 clamp(300px, 27vw, 392px); min-width: 0; border-right: 1px solid hsl(var(--border)); background: hsl(var(--background)); }
+.app-shell.is-agent-full .topbar { height: 52px; min-height: 52px; padding: 0 12px; }
+.app-shell.is-agent-full .chat-region { max-width: none; padding: 14px 14px 12px; }
+.app-shell.is-agent-full .message-row { margin-bottom: 16px; gap: 8px; }
+.app-shell.is-agent-full .message-row .avatar { display: none; }
+.app-shell.is-agent-full .message-content, .app-shell.is-agent-full .message-row.user .message-content { max-width: 100%; }
+.app-shell.is-agent-full .message-text.markdown { font-size: 13.5px; line-height: 1.65; }
+.app-shell.is-agent-full .message-text.markdown .code-block { width: 100%; }
+.app-shell.is-agent-full .composer-wrap { padding: 8px 8px 8px 12px; border-radius: 14px; }
+.app-shell.is-agent-full .hint-keys { display: none; }
+.app-shell.is-agent-full .topbar button[aria-controls="history-sidebar"] { display: none; }
+.app-shell.is-agent-full .composer-hint { flex-wrap: wrap; gap: 6px; }
+
+.workspace.ws-immersive { flex: 1 1 auto; width: auto; min-width: 0; position: relative; inset: auto; z-index: 1; height: auto; max-width: none; border-left: 0; background: hsl(var(--code-bg)); animation: wsiIn .32s cubic-bezier(.2,.8,.2,1) both; }
+@keyframes wsiIn { from { opacity: 0; transform: translateX(24px); } to { opacity: 1; transform: none; } }
+.wsi-head { position: relative; z-index: 2; flex-shrink: 0; display: flex; align-items: center; gap: 10px; min-height: 52px; padding: 7px 12px; border-bottom: 1px solid hsl(var(--border)); background: hsl(var(--card)); flex-wrap: wrap; }
+.wsi-back { display: inline-flex; align-items: center; gap: 7px; height: 34px; padding: 0 12px 0 9px; border: 1px solid hsl(var(--border)); border-radius: 9px; background: transparent; color: hsl(var(--foreground)); font-size: 12px; font-weight: 500; cursor: pointer; transition: border-color .16s, background .16s; }
+.wsi-back:hover { border-color: hsl(var(--primary) / .55); background: hsl(var(--primary) / .08); }
+.wsi-status { display: inline-flex; align-items: center; gap: 8px; font: 11px var(--app-font-mono); letter-spacing: .04em; text-transform: uppercase; color: hsl(var(--muted-foreground)); white-space: nowrap; }
+.wsi-status small { font-size: 10px; opacity: .75; text-transform: none; }
+.wsi-dot { width: 7px; height: 7px; border-radius: 50%; background: hsl(var(--primary)); }
+.wsi-dot.is-live { animation: dot 1.2s ease-in-out infinite; }
+.wsi-dot.is-err { background: hsl(var(--destructive)); }
+.wsi-tabs { display: inline-flex; gap: 2px; padding: 3px; margin-inline: auto; border: 1px solid hsl(var(--border)); border-radius: 10px; background: hsl(var(--background)); }
+.wsi-tabs button { position: relative; display: inline-flex; align-items: center; gap: 6px; height: 30px; padding: 0 12px; border: 0; border-radius: 7px; background: transparent; color: hsl(var(--muted-foreground)); font-size: 12px; font-weight: 500; cursor: pointer; transition: background .18s, color .18s; }
+.wsi-tabs button:hover { color: hsl(var(--foreground)); }
+.wsi-tabs button.is-on { background: hsl(var(--primary) / .16); color: hsl(var(--foreground)); box-shadow: inset 0 0 0 1px hsl(var(--primary) / .45); }
+.wsi-badge { min-width: 16px; height: 16px; padding: 0 4px; border-radius: 8px; background: hsl(var(--destructive)); color: hsl(var(--destructive-foreground)); font: 600 9.5px/16px var(--app-font-mono); text-align: center; }
+.wsi-actions { display: inline-flex; align-items: center; gap: 6px; }
+.wsi-body { position: relative; flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column; }
+.wsi-pane { flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column; animation: enter .2s ease both; }
+.wsi-pane[hidden] { display: none; }
+.wsi-pane .ws-preview-pane { padding: 12px; gap: 0; }
+.wsi-pane .ws-preview-pane .ws-preview { border-radius: 10px 10px 0 0; box-shadow: 0 0 0 1px hsl(var(--border)); min-height: 240px; }
+.wsi-pane .ws-preview-pane .ws-preview-status, .wsi-pane .ws-preview-pane .ws-preview-diagnostics { border: 1px solid hsl(var(--border)); border-top: 0; background: hsl(var(--card)); }
+.wsi-pane .ws-preview-pane > :last-child { border-radius: 0 0 10px 10px; }
+.wsi-pane .ws-editor, .wsi-pane .ws-console { flex: 1 1 auto; min-height: 0; }
+.wsi-pane .ws-out-head { background: hsl(var(--card)); border-bottom: 1px solid hsl(var(--border)); }
+.wsi-empty { margin: auto; display: grid; justify-items: center; gap: 10px; max-width: 340px; padding: 24px; text-align: center; color: hsl(var(--muted-foreground)); font-size: 13px; line-height: 1.6; }
+.wsi-empty p { margin: 0; }
+.wsi-empty svg { color: hsl(var(--primary)); }
+.wsi-waiting { margin: auto; width: min(460px, calc(100% - 32px)); padding: 24px 0; color: hsl(var(--muted-foreground)); font-size: 12.5px; line-height: 1.6; }
+.wsi-waiting h2 { margin: 22px 0 12px; color: hsl(var(--foreground)); font-size: 18px; font-weight: 600; letter-spacing: -.015em; }
+.wsi-waiting p { margin: 14px 0 0; }
+.wsi-frame { border: 1px solid hsl(var(--border)); border-radius: 12px; background: hsl(var(--card)); overflow: hidden; }
+.wsi-frame-bar { display: flex; gap: 5px; padding: 9px 11px; border-bottom: 1px solid hsl(var(--border)); }
+.wsi-frame-bar i { width: 7px; height: 7px; border-radius: 50%; background: hsl(var(--muted)); }
+.wsi-skel { display: grid; gap: 9px; padding: 16px; }
+.wsi-skel span { height: 9px; border-radius: 5px; background: hsl(var(--primary) / .14); animation: wsiPulse 1.8s ease-in-out infinite; }
+.wsi-skel .w60 { width: 60%; } .wsi-skel .w90 { width: 90%; animation-delay: .2s; } .wsi-skel .w40 { width: 40%; animation-delay: .4s; }
+.wsi-skel .block { height: 70px; margin-top: 4px; background: hsl(var(--primary) / .08); animation-delay: .6s; }
+@keyframes wsiPulse { 0%, 100% { opacity: .45; } 50% { opacity: 1; } }
+.wsi-steps { margin: 0; padding: 0; list-style: none; display: grid; gap: 7px; font-family: var(--app-font-mono); font-size: 11.5px; }
+.wsi-steps li { display: flex; align-items: center; gap: 9px; }
+.wsi-steps li::before { content: ''; width: 6px; height: 6px; border-radius: 50%; border: 1px solid hsl(var(--muted-foreground)); }
+.wsi-steps li.is-live { color: hsl(var(--foreground)); }
+.wsi-steps li.is-live::before { border-color: hsl(var(--primary)); background: hsl(var(--primary)); animation: dot 1.2s ease-in-out infinite; }
+
+@media (max-width: 1100px) and (min-width: 768px) {
+  .app-shell.is-agent-full > .main-pane { flex-basis: 300px; }
+  .wsi-tabs button span { display: none; }
+}
+@media (max-width: 767px) {
+  .app-shell.is-agent-full { flex-direction: column; }
+  .app-shell.is-agent-full > .main-pane { order: 2; flex: 1 1 auto; min-height: 0; border-right: 0; border-top: 1px solid hsl(var(--border)); }
+  .app-shell.is-agent-full .topbar { display: none; }
+  .app-shell.is-agent-full .chat-region { padding: 8px 10px calc(8px + env(safe-area-inset-bottom)); }
+  .workspace.ws-immersive { order: 1; position: relative; inset: auto; flex: 0 0 58dvh; height: 58dvh; min-height: 0; width: 100%; z-index: 1; }
+  .wsi-head { gap: 6px; padding: 6px 8px; min-height: 0; }
+  .wsi-back span, .wsi-status small { display: none; }
+  .wsi-back { padding: 0 9px; min-height: 40px; }
+  .wsi-tabs { margin-inline: 0; order: 3; width: 100%; }
+  .wsi-tabs button { flex: 1; justify-content: center; min-height: 36px; }
+  .wsi-actions { margin-left: auto; }
+  .wsi-pane .ws-preview-pane { padding: 6px; }
+  .wsi-pane .ws-preview-pane .ws-preview { min-height: 160px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .workspace.ws-immersive, .wsi-pane, .wsi-skel span, .wsi-dot, .wsi-steps li::before { animation: none !important; }
+}
